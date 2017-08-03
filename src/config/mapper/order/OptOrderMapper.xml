@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ane.order.dao.OptOrderDao" >
+  <resultMap id="BaseResultMap" type="com.ane.order.domain.OptOrder" >
+    <result column="ORDER_ID" property="orderId" jdbcType="BIGINT" />
+    <result column="PRODUCE_TYPE_ID" property="produceTypeId" jdbcType="INTEGER" />
+    <result column="PRODUCE_TYPE_NAME" property="produceType" jdbcType="VARCHAR" />
+    <result column="SERVICE_TYPE_ID" property="serviceTypeId" jdbcType="INTEGER" />
+    <result column="SERVICE_TYPE_NAME" property="serviceType" jdbcType="VARCHAR" />
+    <result column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="SEND_DATE" property="sendDate" jdbcType="VARCHAR" />
+    <result column="SEND_CUSTOMER" property="sendCustomer" jdbcType="VARCHAR" />
+    <result column="SEND_PHONE" property="sendPhone" jdbcType="VARCHAR" />
+    <result column="SEND_CUSTOMER_ADDRESS_ID" property="sendCustomerAddressId" jdbcType="INTEGER" />
+    <result column="SEND_ADDRESS" property="sendAddress" jdbcType="VARCHAR" />
+    <result column="RECEIVE_CUSTOMER" property="receiveCustomer" jdbcType="VARCHAR" />
+    <result column="RECEIVE_PHONE" property="receivePhone" jdbcType="VARCHAR" />
+    <result column="RECEIVE_CUSTOMER_ADDRESS_ID" property="receiveCustomerAddressId" jdbcType="INTEGER" />
+    <result column="RECEIVE_ADDRESS" property="receiveAddress" jdbcType="VARCHAR" />
+    <result column="PRODUCE_NAME" property="produceName" jdbcType="VARCHAR" />
+    <result column="PICK_NAME" property="pickName" jdbcType="VARCHAR" />
+    <result column="CALC_WEIGHT" property="calcWeight" jdbcType="DOUBLE" />
+    <result column="VOL" property="vol" jdbcType="DOUBLE" />
+    <result column="PIECE" property="piece" jdbcType="INTEGER" />
+    <result column="PAY_MODE_ID" property="payModeId" jdbcType="INTEGER" />
+    <result column="PAY_MODE" property="payMode" jdbcType="VARCHAR" />
+    <result column="FREIGHT" property="freight" jdbcType="DOUBLE" />
+    <result column="AMOUNT" property="amount" jdbcType="DOUBLE" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="INTEGER" />
+    <result column="CREATED_BY" property="createdBy" jdbcType="INTEGER" />
+    <result column="CREATED_TIME" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="MODIFIED_BY" property="modifiedBy" jdbcType="INTEGER" />
+    <result column="MODIFIED_TIME" property="modifiedTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap  id="BaseResultMapEx" type="com.ane.order.domain.OptOrder" >
+  <result column="ORDER_ID" property="orderId" jdbcType="BIGINT" />
+    <result column="PRODUCE_TYPE_ID" property="produceTypeId" jdbcType="INTEGER" />
+    <result column="SERVICE_TYPE_ID" property="serviceTypeId" jdbcType="INTEGER" />
+    <result column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="SEND_CUSTOMER" property="sendCustomer" jdbcType="VARCHAR" />
+    <result column="SEND_PHONE" property="sendPhone" jdbcType="VARCHAR" />
+    <result column="SEND_CUSTOMER_ADDRESS_ID" property="sendCustomerAddressId" jdbcType="INTEGER" />
+    <result column="RECEIVE_CUSTOMER" property="receiveCustomer" jdbcType="VARCHAR" />
+    <result column="RECEIVE_PHONE" property="receivePhone" jdbcType="VARCHAR" />
+    <result column="RECEIVE_CUSTOMER_ADDRESS_ID" property="receiveCustomerAddressId" jdbcType="INTEGER" />
+    <result column="PRODUCE_NAME" property="produceName" jdbcType="VARCHAR" />
+    <result column="PICK_NAME" property="pickName" jdbcType="VARCHAR" />
+    <result column="CALC_WEIGHT" property="calcWeight" jdbcType="DOUBLE" />
+    <result column="VOL" property="vol" jdbcType="DOUBLE" />
+    <result column="PIECE" property="piece" jdbcType="INTEGER" />
+    <result column="PAY_MODE_ID" property="payModeId" jdbcType="INTEGER" />
+    <result column="FREIGHT" property="freight" jdbcType="DOUBLE" />
+    <result column="AMOUNT" property="amount" jdbcType="DOUBLE" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="INTEGER" />
+    <result column="CREATED_BY" property="createdBy" jdbcType="INTEGER" />
+    <result column="CREATED_TIME" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="MODIFIED_BY" property="modifiedBy" jdbcType="INTEGER" />
+    <result column="MODIFIED_TIME" property="modifiedTime" jdbcType="TIMESTAMP" />
+    <result column="ewb_no" property="ewbNo" jdbcType="VARCHAR" />
+    <result column="send_address" property="sendAddress" jdbcType="VARCHAR" />
+    <result column="receive_address" property="receiveAddress" jdbcType="VARCHAR" />
+    <result column="pay_mode" property="payMode" jdbcType="VARCHAR" />
+    <result column="service_type" property="serviceType" jdbcType="VARCHAR" />
+    <result column="produce_type" property="produceType" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap  id="BaseResult" type="com.ane.order.domain.OptOrder" >
+    <result column="send_address" property="sendAddress" jdbcType="VARCHAR" />
+    <result column="receive_address" property="receiveAddress" jdbcType="VARCHAR" />
+    <result column="produce_type" property="produceType" jdbcType="VARCHAR" />
+    <result column="beginName" property="beginName" jdbcType="VARCHAR" />
+    <result column="endName" property="endName" jdbcType="VARCHAR" />
+    <result column="signName" property="signName" jdbcType="INTEGER" />
+    <result column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="SEND_CUSTOMER" property="sendCustomer" jdbcType="VARCHAR" />
+    <result column="SEND_PHONE" property="sendPhone" jdbcType="VARCHAR" />
+    <result column="RECEIVE_CUSTOMER" property="receiveCustomer" jdbcType="VARCHAR" />
+    <result column="RECEIVE_PHONE" property="receivePhone" jdbcType="VARCHAR" />
+    <result column="PRODUCE_NAME" property="produceName" jdbcType="VARCHAR" />
+    <result column="PICK_NAME" property="pickName" jdbcType="VARCHAR" />
+    <result column="CALC_WEIGHT" property="calcWeight" jdbcType="DOUBLE" />
+    <result column="PIECE" property="piece" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+	ORDER_ID, PRODUCE_TYPE_ID, SERVICE_TYPE_ID, 
+      SEND_TIME, SEND_CUSTOMER, SEND_PHONE, 
+      SEND_CUSTOMER_ADDRESS_ID, RECEIVE_CUSTOMER, 
+      RECEIVE_PHONE, RECEIVE_CUSTOMER_ADDRESS_ID, 
+      PRODUCE_NAME, PICK_NAME, CALC_WEIGHT, 
+      VOL, PIECE, PAY_MODE_ID, 
+      FREIGHT, AMOUNT, REMARK, STATE,
+      CREATED_BY, CREATED_TIME, MODIFIED_BY, 
+      MODIFIED_TIME
+  </sql>
+  
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select ORDER_ID, PRODUCE_TYPE_ID, SERVICE_TYPE_ID, 
+      SEND_TIME, SEND_CUSTOMER, SEND_PHONE, 
+      SEND_CUSTOMER_ADDRESS_ID, RECEIVE_CUSTOMER, 
+      RECEIVE_PHONE, RECEIVE_CUSTOMER_ADDRESS_ID, 
+      PRODUCE_NAME, PICK_NAME, CALC_WEIGHT, 
+      VOL, PIECE, PAY_MODE_ID, 
+      FREIGHT, AMOUNT, REMARK, STATE,
+      CREATED_BY, CREATED_TIME, MODIFIED_BY, 
+      MODIFIED_TIME,
+      (select di.name from hs_basic_dictionary di where di.id= a.PAY_MODE_ID ) as PAY_MODE,
+      (select di.name from hs_basic_dictionary di where di.id= a.PRODUCE_TYPE_ID ) as PRODUCE_TYPE_NAME,
+    	(select di.name from hs_basic_dictionary di where di.id= a.SERVICE_TYPE_ID ) as SERVICE_TYPE_NAME,
+    date_format(SEND_TIME,'%Y-%c-%d %h:%i:%s') as SEND_DATE,
+    (select li.full_address from hs_basic_address_library li where li.ADDRESS_LIBRART_ID = a.SEND_CUSTOMER_ADDRESS_ID ) as SEND_ADDRESS,
+    (select li.full_address from hs_basic_address_library li where li.ADDRESS_LIBRART_ID = a.RECEIVE_CUSTOMER_ADDRESS_ID ) as RECEIVE_ADDRESS
+    from hs_opt_order a 
+    	where a.order_id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <insert id="insert" parameterType="com.ane.order.domain.OptOrder" >
+    insert into hs_opt_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="produceTypeId != null" >
+        PRODUCE_TYPE_ID,
+      </if>
+      <if test="serviceTypeId != null" >
+        SERVICE_TYPE_ID,
+      </if>
+      <if test="sendTime != null" >
+        SEND_TIME,
+      </if>
+      <if test="sendCustomer != null" >
+        SEND_CUSTOMER,
+      </if>
+      <if test="sendPhone != null" >
+        SEND_PHONE,
+      </if>
+      <if test="sendCustomerAddressId != null" >
+        SEND_CUSTOMER_ADDRESS_ID,
+      </if>
+      <if test="receiveCustomer != null" >
+        RECEIVE_CUSTOMER,
+      </if>
+      <if test="receivePhone != null" >
+        RECEIVE_PHONE,
+      </if>
+      <if test="receiveCustomerAddressId != null" >
+        RECEIVE_CUSTOMER_ADDRESS_ID,
+      </if>
+      <if test="produceName != null" >
+        PRODUCE_NAME,
+      </if>
+      <if test="pickName != null" >
+        PICK_NAME,
+      </if>
+      <if test="calcWeight != null" >
+        CALC_WEIGHT,
+      </if>
+      <if test="vol != null" >
+        VOL,
+      </if>
+      <if test="piece != null" >
+        PIECE,
+      </if>
+      <if test="payModeId != null" >
+        PAY_MODE_ID,
+      </if>
+      <if test="freight != null" >
+        FREIGHT,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+      <if test="createdBy != null" >
+        CREATED_BY,
+      </if>
+      <if test="createdTime != null" >
+        CREATED_TIME,
+      </if>
+      <if test="modifiedBy != null" >
+        MODIFIED_BY,
+      </if>
+      <if test="modifiedTime != null" >
+        MODIFIED_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="produceTypeId != null" >
+        #{produceTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="serviceTypeId != null" >
+        #{serviceTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendCustomer != null" >
+        #{sendCustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="sendPhone != null" >
+        #{sendPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="sendCustomerAddressId != null" >
+        #{sendCustomerAddressId,jdbcType=INTEGER},
+      </if>
+      <if test="receiveCustomer != null" >
+        #{receiveCustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="receivePhone != null" >
+        #{receivePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveCustomerAddressId != null" >
+        #{receiveCustomerAddressId,jdbcType=INTEGER},
+      </if>
+      <if test="produceName != null" >
+        #{produceName,jdbcType=VARCHAR},
+      </if>
+      <if test="pickName != null" >
+        #{pickName,jdbcType=VARCHAR},
+      </if>
+      <if test="calcWeight != null" >
+        #{calcWeight,jdbcType=DOUBLE},
+      </if>
+      <if test="vol != null" >
+        #{vol,jdbcType=DOUBLE},
+      </if>
+      <if test="piece != null" >
+        #{piece,jdbcType=INTEGER},
+      </if>
+      <if test="payModeId != null" >
+        #{payModeId,jdbcType=INTEGER},
+      </if>
+      <if test="freight != null" >
+        #{freight,jdbcType=DOUBLE},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedBy != null" >
+        #{modifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="modifiedTime != null" >
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="getMaxOrder" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from  hs_opt_order o
+	WHERE
+		o.order_Id = (
+			SELECT
+				max(order_id) orderId
+			FROM
+				hs_opt_order
+		)
+  </select>
+  
+  <select id="getOrderByPage" resultMap="BaseResultMapEx"  >
+    SELECT
+	distinct a.*,
+	b.ewb_no,
+	c.FULL_ADDRESS AS send_address,
+	d.FULL_ADDRESS AS receive_address,
+	(select e.`name` from hs_basic_dictionary e where e.id=a.PRODUCE_TYPE_ID ) as produce_type,
+	(select e.`name` from hs_basic_dictionary e where e.id=a.SERVICE_TYPE_ID ) as service_type,
+	(select e.`name` from hs_basic_dictionary e where e.id=a.PAY_MODE_ID ) as pay_mode
+	FROM
+		hs_opt_order a
+	LEFT JOIN hs_opt_ewb b ON b.order_id = a.ORDER_ID
+	LEFT JOIN hs_basic_address_library c ON c.ADDRESS_LIBRART_ID = a.SEND_CUSTOMER_ADDRESS_ID
+	LEFT JOIN hs_basic_address_library d ON d.ADDRESS_LIBRART_ID = a.RECEIVE_CUSTOMER_ADDRESS_ID
+	left join hs_auth_organization f on f.full_address  LIKE c.FULL_ADDRESS
+	where 1=1
+   	<if test="end != null" >
+       and a.send_time &lt; #{end,jdbcType=TIMESTAMP}
+    </if>
+    <if test="start != null" >
+       and a.send_time > #{start,jdbcType=TIMESTAMP}
+    </if>
+    <if test="loginSiteId != null" >
+      and f.id = #{loginSiteId,jdbcType=BIGINT}
+    </if>
+    limit #{offset},#{pageSize}
+  </select>
+  
+  <select id="getCounts" resultType="java.lang.Integer" >
+    select 
+    count(1)
+    FROM
+		hs_opt_order a
+	LEFT JOIN hs_opt_ewb b ON b.order_id = a.ORDER_ID
+	LEFT JOIN hs_basic_address_library c ON c.ADDRESS_LIBRART_ID = a.SEND_CUSTOMER_ADDRESS_ID
+	LEFT JOIN hs_basic_address_library d ON d.ADDRESS_LIBRART_ID = a.RECEIVE_CUSTOMER_ADDRESS_ID
+	left join hs_auth_organization f on f.full_address  LIKE c.FULL_ADDRESS
+	where 1=1
+   	<if test="end != null" >
+       and a.send_time &lt; #{end,jdbcType=TIMESTAMP}
+    </if>
+    <if test="start != null" >
+       and a.send_time > #{start,jdbcType=TIMESTAMP}
+    </if>
+    <if test="loginSiteId != null" >
+       and f.id = #{loginSiteId,jdbcType=BIGINT}
+    </if>
+  </select>
+</mapper>

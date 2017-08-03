@@ -1,0 +1,97 @@
+@import url("common.css");
+@charset "utf-8";
+/* CSS Document */
+
+html,body{
+	background:#FFF;
+	min-width:1000px;
+	min-height:550px;
+	overflow: hidden;
+}
+.top{
+	height: 80px;
+	line-height: 80px;
+	overflow: hidden;
+}
+.top img{
+	width: 278px;
+	display:block;
+	margin:23px 0px 23px 120px;
+	float:left;
+}
+.top ul{
+	width: 390px;
+	float: right;
+	margin-right:120px;
+	overflow: hidden;
+}
+.top li{
+	float: left;
+	color: #000;
+	width:130px;
+	text-align: center;
+	font-size:16px;
+	cursor: pointer;
+}
+.center{
+	height:calc(100vh - (120px));
+	height:-moz-calc(100vh - (120px));
+	height:-m-calc(100vh - (120px));
+	height:-o-calc(100vh - (120px));
+	height:-webkit-calc(100vh - (120px));
+	background-image: url('../img/login-bg.png');
+	background-position: center;
+	background-repeat: no-repeat;
+	overflow: hidden;
+}
+.center ul{
+	width: 320px;
+	height: 350px;
+	background-image: url('../img/login-input-bg.png');
+	border-radius: 4px;
+	float:right;
+	margin:100px 200px 0px 0px;
+}
+.center li{
+	line-height:40px;
+	text-align: center;
+}
+.center .login-title{
+	font-size: 18px;
+	margin:30px 0px; 
+}
+.center div{
+	height: 40px;
+	width: 250px;
+	border-radius: 4px;
+	background-color:#FFF;
+	margin: 0px auto 20px auto;
+}
+.center img{
+	vertical-align:middle;
+}
+.center input{
+	height: 40px;
+	border: none;
+	width:200px;
+}
+.center .login-btn{
+	width: 250px;
+	height: 40px;
+	border-radius: 4px;
+	background-color:#F5BD00;
+	color:#FFF;
+	font-size: 16px;
+	border: none;
+	margin-top:20px;
+	cursor: pointer;
+}
+.center .hint{
+	color: red;
+	margin-top:15px;
+}
+.bottom{
+	height: 25px;
+	padding-top:15px;
+	text-align: center;
+}

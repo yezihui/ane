@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ane.arbitration.dao.ArbitrationHandlerDao">
+	<resultMap id="BaseResultMap" type="com.ane.arbitration.domain.ArbitrationHandler">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="arbitration_id" property="arbitrationId"
+			jdbcType="BIGINT" />
+		<result column="reason" property="reason" jdbcType="VARCHAR" />
+		<result column="handler" property="handler" jdbcType="BIGINT" />
+		<result column="hand" property="hand" jdbcType="VARCHAR" />
+		<result column="prov_status" property="provStatus" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="created" property="created" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, arbitration_id, reason, handler, prov_status, created,`status`
+	</sql>
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		*
+		from arbitration_handler
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<!-- 获取中心处理过信息 -->
+	<select id="getInfo" resultMap="BaseResultMap">
+		select
+		id, arbitration_id, reason, (select emp.name from hs_auth_employee emp where emp.id = handler) as hand, created,
+		(case when `status`=1 then '已分中心'
+		when `status`=2 then '已接单，处理中'
+		when `status`=3 then '处理完毕，待审核'
+		when `status`=4 then '已下发通知，生效中'
+		when `status`=5 then '仲裁审批不通过'
+		when `status`=6 then '中心处理中'
+		when `status`=7 then '结算审核通过'
+		when `status`=8 then '不予接单'
+		else '未知状态' end) as `status`,
+		(case when `prov_status`=1 then '已分中心'
+		when `prov_status`=2 then '已接单，处理中'
+		when `prov_status`=3 then '处理完毕，待审核'
+		when `prov_status`=4 then '已下发通知，生效中'
+		when `prov_status`=5 then '仲裁审批不通过'
+		when `prov_status`=6 then '中心处理中'
+		when `prov_status`=7 then '结算审核通过'
+		when `prov_status`=8 then '不予接单'
+		else '未知状态' end) as `prov_status`
+		from arbitration_handler
+		where arbitration_id =#{id,jdbcType=BIGINT}
+		ORDER BY created
+	</select>
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from arbitration_handler
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<insert id="add" parameterType="com.ane.arbitration.domain.ArbitrationHandler">
+		insert into arbitration_handler
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+
+			<if test="arbitrationId != null">
+				arbitration_id,
+			</if>
+			<if test="reason != null">
+				reason,
+			</if>
+			<if test="handler != null">
+				handler,
+			</if>
+			<if test="provStatus != null">
+				prov_status,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="arbitrationId != null">
+				created,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="arbitrationId != null">
+				#{arbitrationId,jdbcType=BIGINT},
+			</if>
+			<if test="reason != null">
+				#{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="handler != null">
+				#{handler,jdbcType=BIGINT},
+			</if>
+			<if test="provStatus != null">
+				#{provStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="arbitrationId != null">
+				now(),
+			</if>
+		</trim>
+	</insert>
+</mapper>

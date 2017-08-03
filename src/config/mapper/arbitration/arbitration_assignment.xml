@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ane.arbitration.dao.ArbitrationAssignDao" >
+  <resultMap id="BaseResultMap" type="com.ane.arbitration.domain.ArbitrationAssignment" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="center" property="center" jdbcType="BIGINT" />
+    <result column="owner_id" property="ownerId" jdbcType="BIGINT" />
+    <result column="orderName" property="orderName" jdbcType="BIGINT" />
+    <result column="types" property="types" jdbcType="VARCHAR" />
+    <result column="apply_addresses" property="applyAddresses" jdbcType="VARCHAR" />
+    <result column="owner_addresses" property="ownerAddresses" jdbcType="VARCHAR" />
+    <result column="rate" property="rate" jdbcType="DECIMAL" />
+    <result column="creater" property="creater" jdbcType="BIGINT" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="updater" property="updater" jdbcType="BIGINT" />
+    <result column="updated" property="updated" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, code, center, owner_id, types, apply_addresses, owner_addresses, rate, creater, 
+    created, updater, updated
+  </sql>
+  
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from arbitration_assignment
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+   <!-- 查询所有 -->
+  <select id="findAll" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from arbitration_assignment
+  </select>
+  
+  <!-- 分页查询所有 -->
+  <select id="getAssignInfo" resultType="com.ane.arbitration.domain.ArbitrationAssignment">
+  	SELECT
+	a.id,
+	a.code,
+	a.center,
+	b.name orderName,
+	a.owner_id,
+	a.apply_addresses as applyAddresses,
+	a.owner_addresses,
+	a.types,
+	a.created,
+	a.updated,
+	a.rate
+	FROM arbitration_assignment a
+	LEFT JOIN hs_auth_employee b on b.id = a.owner_id
+	limit #{offset},#{pageSize}
+  </select>
+  <!-- 查询记录数 -->
+  <select id="getArbitrationNum" resultType="java.lang.Integer">
+  	SELECT
+	count(1)
+	FROM arbitration_assignment a
+	LEFT JOIN hs_auth_employee b on b.id = a.owner_id
+  </select>
+  
+  
+  <!-- 查询人员分配信息 -->
+  <select id="search" resultMap="BaseResultMap"  >
+   SELECT
+	a.id,
+	a.code,
+	a.center,
+	b.name orderName,
+	a.owner_id,
+	a.apply_addresses,
+	a.owner_addresses,
+	a.types,
+	a.created,
+	a.updated,
+	a.rate
+	FROM arbitration_assignment a
+	LEFT JOIN hs_auth_employee b on b.id = a.owner_id
+	limit #{offset},#{pageSize}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.Long" >
+    delete from arbitration_assignment
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="add" parameterType="com.ane.arbitration.domain.ArbitrationAssignment" >
+    insert into arbitration_assignment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="center != null" >
+        center,
+      </if>
+      <if test="ownerId != null" >
+        owner_id,
+      </if>
+      <if test="types != null" >
+        types,
+      </if>
+      <if test="applyAddresses != null" >
+        apply_addresses,
+      </if>
+      <if test="ownerAddresses != null" >
+        owner_addresses,
+      </if>
+      <if test="rate != null" >
+        rate,
+      </if>
+      <if test="creater != null" >
+        creater,
+      </if>
+      <if test="1==1" >
+        created,
+      </if>
+      <if test="updater != null" >
+        updater,
+      </if>
+      <if test="updated != null" >
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=BIGINT},
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="center != null" >
+        #{center,jdbcType=BIGINT},
+      </if>
+      <if test="ownerId != null" >
+        #{ownerId,jdbcType=BIGINT},
+      </if>
+      <if test="types != null" >
+        #{types,jdbcType=VARCHAR},
+      </if>
+      <if test="applyAddresses != null" >
+        #{applyAddresses,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerAddresses != null" >
+        #{ownerAddresses,jdbcType=VARCHAR},
+      </if>
+      <if test="rate != null" >
+        #{rate,jdbcType=DECIMAL},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=BIGINT},
+      </if>
+      <if test="1==1" >
+        now(),
+      </if>
+      <if test="updater != null" >
+        #{updater,jdbcType=BIGINT},
+      </if>
+      <if test="updated != null" >
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.ane.arbitration.domain.ArbitrationAssignment" >
+    update arbitration_assignment
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="center != null" >
+        center = #{center,jdbcType=BIGINT},
+      </if>
+      <if test="ownerId != null" >
+        owner_id = #{ownerId,jdbcType=BIGINT},
+      </if>
+      <if test="types != null" >
+        types = #{types,jdbcType=VARCHAR},
+      </if>
+      <if test="applyAddresses != null" >
+        apply_addresses = #{applyAddresses,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerAddresses != null" >
+        owner_addresses = #{ownerAddresses,jdbcType=VARCHAR},
+      </if>
+      <if test="rate != null" >
+        rate = #{rate,jdbcType=DECIMAL},
+      </if>
+      <if test="creater != null" >
+        creater = #{creater,jdbcType=BIGINT},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null" >
+        updater = #{updater,jdbcType=BIGINT},
+      </if>
+      <if test="1==1" >
+        updated = now(),
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ane.order.dao.OptRetreatMapper">
+	<resultMap id="BaseResultMap" type="com.ane.order.domain.OptRetreat">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="ewb_no" property="ewbNo" jdbcType="VARCHAR" />
+		<result column="apply_site_id" property="applySiteId" jdbcType="BIGINT" />
+		<result column="apply_site_name" property="applySiteName" jdbcType="VARCHAR" />
+		<result column="apply_time" property="applyTime" jdbcType="TIMESTAMP" />
+		<result column="full_address" property="fullAddress" jdbcType="VARCHAR" />
+		<result column="return_reason" property="returnReason"
+			jdbcType="VARCHAR" />
+		<result column="msg_site_id" property="msgSiteId" jdbcType="BIGINT" />
+		<result column="msg_site_name" property="msgSiteName" jdbcType="VARCHAR" />
+		<result column="confirm_by" property="confirmBy" jdbcType="VARCHAR" />
+		<result column="confirm_time" property="confirmTime" jdbcType="TIMESTAMP" />
+		<result column="confirm_site_id" property="confirmSiteId"
+			jdbcType="BIGINT" />
+		<result column="confirm_site_name" property="confirmSiteName"
+			jdbcType="VARCHAR" />
+		<result column="accept_status" property="acceptStatus"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, ewb_no, apply_site_id, apply_time, full_address, return_reason,
+		msg_site_id,
+		confirm_by, confirm_time, confirm_site_id, accept_status
+	</sql>
+	<select id="findByEwb" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from hs_opt_retreat
+		where ewb_no = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from hs_opt_retreat
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<select id="findAll" resultMap="BaseResultMap">
+		SELECT
+		id,
+		ewb_no,
+		(
+		SELECT
+		a. NAME
+		FROM
+		hs_auth_organization a
+		WHERE
+		a.id = apply_site_id
+		) apply_site_name,
+		apply_time,
+		full_address,
+		return_reason,
+		(
+		SELECT
+		a. NAME
+		FROM
+		hs_auth_organization a
+		WHERE
+		a.id = msg_site_id
+		) msg_site_name,
+		confirm_by,
+		confirm_time,
+		(
+		SELECT
+		a. NAME
+		FROM
+		hs_auth_organization a
+		WHERE
+		a.id = confirm_site_id
+		) confirm_site_name,
+		(
+		CASE
+		WHEN accept_status = 0 THEN
+		'未受理'
+		WHEN accept_status = 1 THEN
+		'已受理'
+		ELSE
+		'未知状态'
+		END
+		) accept_status
+		FROM
+		hs_opt_retreat
+		where  msg_site_id= #{msgSiteId,jdbcType=BIGINT}
+		<if test="end != null">
+				AND apply_time &lt;= #{end} 
+		</if>
+		<if test="start !=null and start !='' ">
+				AND apply_time &gt;= #{start} 
+		</if>  
+		<if test="applySiteId !=null and applySiteId !='' ">
+				AND apply_site_id = #{applySiteId,jdbcType=BIGINT} 
+		</if> 
+		<if test="acceptStatus !=null and acceptStatus !='' ">
+				AND accept_status = #{acceptStatus,jdbcType=VARCHAR} 
+		</if> 
+	</select>
+
+	<insert id="insert" parameterType="com.ane.order.domain.OptRetreat">
+		insert into hs_opt_retreat
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ewbNo != null">
+				ewb_no,
+			</if>
+			<if test="applySiteId != null">
+				apply_site_id,
+			</if>
+			<if test="1 != null">
+				apply_time,
+			</if>
+			<if test="fullAddress != null">
+				full_address,
+			</if>
+			<if test="returnReason != null">
+				return_reason,
+			</if>
+			<if test="msgSiteId != null">
+				msg_site_id,
+			</if>
+			<if test="confirmBy != null">
+				confirm_by,
+			</if>
+			<if test="confirmTime != null">
+				confirm_time,
+			</if>
+			<if test="confirmSiteId != null">
+				confirm_site_id,
+			</if>
+			<if test="acceptStatus != null">
+				accept_status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ewbNo != null">
+				#{ewbNo,jdbcType=VARCHAR},
+			</if>
+			<if test="applySiteId != null">
+				#{applySiteId,jdbcType=BIGINT},
+			</if>
+			<if test="1 != null">
+				now(),
+			</if>
+			<if test="fullAddress != null">
+				#{fullAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="returnReason != null">
+				#{returnReason,jdbcType=VARCHAR},
+			</if>
+			<if test="msgSiteId != null">
+				#{msgSiteId,jdbcType=BIGINT},
+			</if>
+			<if test="confirmBy != null">
+				#{confirmBy,jdbcType=BIGINT},
+			</if>
+			<if test="confirmTime != null">
+				#{confirmTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="confirmSiteId != null">
+				#{confirmSiteId,jdbcType=BIGINT},
+			</if>
+			<if test="acceptStatus != null">
+				#{acceptStatus,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.ane.order.domain.OptRetreat">
+		update hs_opt_retreat
+		<set>
+			<if test="ewbNo != null">
+				ewb_no = #{ewbNo,jdbcType=VARCHAR},
+			</if>
+			<if test="applySiteId != null">
+				apply_site_id = #{applySiteId,jdbcType=BIGINT},
+			</if>
+			<if test="applyTime != null">
+				apply_time = #{applyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fullAddress != null">
+				full_address = #{fullAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="returnReason != null">
+				return_reason = #{returnReason,jdbcType=VARCHAR},
+			</if>
+			<if test="msgSiteId != null">
+				msg_site_id = #{msgSiteId,jdbcType=BIGINT},
+			</if>
+			<if test="confirmBy != null">
+				confirm_by = #{confirmBy,jdbcType=VARCHAR},
+			</if>
+			<if test="1 != null">
+				confirm_time = now(),
+			</if>
+			<if test="confirmSiteId != null">
+				confirm_site_id = #{confirmSiteId,jdbcType=BIGINT},
+			</if>
+			<if test="acceptStatus != null">
+				accept_status = #{acceptStatus,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	
+</mapper>

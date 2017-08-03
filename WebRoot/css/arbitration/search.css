@@ -1,0 +1,53 @@
+
+@charset "utf-8";
+/* CSS Document */
+.list .condition .condition-right .sel {
+	width: 80px;
+	float: left;
+	margin-top: 17px;
+}
+.left{
+	float: left;
+}
+
+/
+/**详细信息**/
+.info{
+	overflow:hidden; 
+	background: #FFF;
+	height: 110%;
+}
+.info>div{
+	width:1320px;
+	margin:20px auto 0px auto;
+}
+.info .input-div{
+	width:262px;
+	margin:15px 0px; 
+}
+.info input[type='text']{
+	width: 145px;
+}
+
+.info select{
+	width: 167px;
+}
+.info .textarea-div{
+	float:left;
+}
+.info .textarea-div label{
+	float:left;
+	margin:55px 4px 0px 42px;
+}
+.info textarea{
+	background: #FBFBFB;
+	height: 100px;
+	width:1198px;
+}
+.info .upload{
+	float:left;
+	padding:10px 0px 0px 40px; 
+}
+.info .upload label{
+	width:160px;
+}

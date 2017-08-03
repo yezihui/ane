@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ane.claim.dao.ClaimDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.ane.claim.domain.ClaimDetail" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="claim_id" property="claimId" jdbcType="BIGINT" />
+    <result column="amount" property="amount" jdbcType="DOUBLE" />
+    <result column="claim_amount" property="claimAmount" jdbcType="DOUBLE" />
+    <result column="safe" property="safe" jdbcType="INTEGER" />
+    <result column="apply_reason" property="applyReason" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,claim_id amount, claim_amount, safe, apply_reason
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from claim_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from claim_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ane.claim.domain.ClaimDetail" >
+    insert into claim_detail (claim_id, amount, claim_amount, 
+      safe, apply_reason)
+    values (#{claimId,jdbcType=BIGINT}, #{amount,jdbcType=DOUBLE}, #{claimAmount,jdbcType=DOUBLE}, 
+      #{safe,jdbcType=INTEGER}, #{applyReason,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ane.claim.domain.ClaimDetail" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into claim_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="claimAmount != null" >
+        claim_amount,
+      </if>
+      <if test="safe != null" >
+        safe,
+      </if>
+      <if test="applyReason != null" >
+        apply_reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=BIGINT},
+      <if test="amount != null" >
+        #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="claimAmount != null" >
+        #{claimAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="safe != null" >
+        #{safe,jdbcType=INTEGER},
+      </if>
+      <if test="applyReason != null" >
+        #{applyReason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ane.claim.domain.ClaimDetail" >
+    update claim_detail
+    <set >
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="claimAmount != null" >
+        claim_amount = #{claimAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="safe != null" >
+        safe = #{safe,jdbcType=INTEGER},
+      </if>
+      <if test="applyReason != null" >
+        apply_reason = #{applyReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ane.claim.domain.ClaimDetail" >
+    update claim_detail
+    set amount = #{amount,jdbcType=DOUBLE},
+      claim_amount = #{claimAmount,jdbcType=DOUBLE},
+      safe = #{safe,jdbcType=INTEGER},
+      apply_reason = #{applyReason,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

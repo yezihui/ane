@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ane.arbitration.dao.ArbitrationOwnerTypeDao" >
+  <resultMap id="BaseResultMap" type="com.ane.arbitration.domain.ArbitrationOwnerType" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="letters" property="letters" jdbcType="CHAR" />
+    <result column="arbitration_type" property="arbitrationType" jdbcType="BIGINT" />
+    <result column="order" property="order" jdbcType="INTEGER" />
+    <result column="typeName" property="typeName" jdbcType="VARCHAR" />
+    <result column="creater" property="creater" jdbcType="BIGINT" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="updater" property="updater" jdbcType="BIGINT" />
+    <result column="updated" property="updated" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, code, name,letters, arbitration_type, `order`, creater, created, updater, updated,remark
+  </sql>
+  
+  
+  <!-- 分页查询所有 -->
+  <select id="getArbOwnerByPage" resultType="com.ane.arbitration.domain.ArbitrationOwnerType">
+  	SELECT
+	a.id,
+	a.code,
+	a.name ,
+	a.letters,
+	a.arbitration_type, 
+	b.name typeName, 
+	a.order, 
+	a.creater, 
+	a.created, 
+	a.updater, 
+	a.updated
+	FROM arbitration_owner_type as a
+	LEFT JOIN arbitration_type as  b on b.id = a.arbitration_type
+   where 1=1 
+	 <if test="arbitrationType != null and arbitrationType !=0 and arbitrationType !='' " >
+        	AND a.arbitration_type = #{arbitrationType,jdbcType=BIGINT}
+    </if>
+	<if test="name != null and name != ''" >
+	   		AND a.name = #{name}  
+	   </if> 
+
+	 limit #{offset},#{pageSize}
+  </select>
+  <!-- 查询记录数 -->
+  <select id="getArbitrationNum" resultType="java.lang.Integer">
+  	select count(1) from arbitration_owner_type
+  </select>
+ 
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    SELECT
+	a.id,
+	a.code,
+	a.name ,
+	a.letters, 
+	a.arbitration_type,
+	b.name typeName, 
+	a.order, 
+	a.creater, 
+	a.created, 
+	a.updater, 
+	a.updated,
+	a.remark
+	FROM arbitration_owner_type as a
+	LEFT JOIN arbitration_type as  b on b.id = a.arbitration_type
+    where a.id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="getMaxOrder" resultType="com.ane.arbitration.domain.ArbitrationOwnerType">
+		select max(`order`)+1 `order` from arbitration_owner_type
+	</select>
+  
+  <select id="findByOwnName" parameterType="java.lang.String" resultType="java.lang.Long">
+   SELECT
+	a.id
+	FROM arbitration_owner_type as a
+	WHERE a.name = #{name}
+  </select>
+  
+  <select id="findByOwnCode" parameterType="java.lang.String" resultType="java.lang.Long">
+   SELECT
+	a.id
+	FROM arbitration_owner_type as a
+	WHERE a.code = #{code}
+  </select>
+  
+  <select id="findByOwnOrder" parameterType="java.lang.String" resultType="java.lang.Long">
+   SELECT
+	a.id
+	FROM arbitration_owner_type as a
+	WHERE a.order = #{order}
+  </select>
+  
+  
+  <select id="findAll" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from arbitration_owner_type
+  </select>
+  <select id="getOwnerTypes" resultMap="BaseResultMap"  >
+    SELECT
+	a.id,
+	a.code,
+	a.name ,
+	a.letters,
+	a.arbitration_type, 
+	b.name typeName, 
+	a.order, 
+	a.creater, 
+	a.created, 
+	a.updater, 
+	a.updated
+	FROM arbitration_owner_type as a
+	LEFT JOIN arbitration_type as  b on b.id = a.arbitration_type
+    where b.name = #{applyType} 
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.Long" >
+    delete from arbitration_owner_type
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="add" parameterType="com.ane.arbitration.domain.ArbitrationOwnerType" >
+    insert into arbitration_owner_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="letters != null">
+      	letters,
+      </if>
+      <if test="arbitrationType != null" >
+        arbitration_type,
+      </if>
+      <if test="order != null" >
+        `order`,
+      </if>
+      <if test="creater != null" >
+        creater,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+      <if test="updater != null" >
+        updater,
+      </if>
+      <if test="updated != null" >
+        updated,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=BIGINT},
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="letters != null" >
+        #{letters,jdbcType=CHAR},
+      </if>
+      <if test="arbitrationType != null" >
+        #{arbitrationType,jdbcType=BIGINT},
+      </if>
+      <if test="order != null" >
+        #{order,jdbcType=INTEGER},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=BIGINT},
+      </if>
+      <if test="created != null" >
+        now(),
+      </if>
+      <if test="updater != null" >
+        #{updater,jdbcType=BIGINT},
+      </if>
+      <if test="updated != null" >
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.ane.arbitration.domain.ArbitrationOwnerType" >
+    update arbitration_owner_type
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="letters != null" >
+        letters = #{letters,jdbcType=CHAR},
+      </if>
+      <if test="arbitrationType != null" >
+        arbitration_type = #{arbitrationType,jdbcType=BIGINT},
+      </if>
+      <if test="order != null" >
+        `order` = #{order,jdbcType=INTEGER},
+      </if>
+      <if test="creater != null" >
+        creater = #{creater,jdbcType=BIGINT},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null" >
+        updater = #{updater,jdbcType=BIGINT},
+      </if>
+      <if test="updated != null" >
+        updated = now(),
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

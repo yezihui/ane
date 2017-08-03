@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ane.basic.dao.AreasDao" >
+  <resultMap id="BaseResultMap" type="com.ane.basic.domain.Areas" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="areaid" property="areaid" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="cityid" property="cityid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, areaid, area, cityid
+  </sql>
+  <select id="listAll" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from areas
+    where cityid = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getAreaName" resultType="java.lang.String">
+  	select area from areas where areaid=#{areaid}
+  </select>
+</mapper>

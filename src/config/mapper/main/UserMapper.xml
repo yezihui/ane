@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ane.main.dao.UserDao" >
+  <resultMap id="BaseResultMap" type="com.ane.main.domain.User" >
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_pwd" property="userPwd" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="INTEGER" />
+    <result column="employee_id" property="employeeId" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="created_time" property="createdTime" jdbcType="DATE" />
+    <result column="modified_by" property="modifiedBy" jdbcType="INTEGER" />
+    <result column="modified_time" property="modifiedTime" jdbcType="DATE" />
+  </resultMap>
+  <resultMap  id="BaseResultMapEx" type="com.ane.main.domain.User">
+  	<id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_pwd" property="userPwd" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="INTEGER" />
+    <result column="employee_id" property="employeeId" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="created_time" property="createdTime" jdbcType="DATE" />
+    <result column="modified_by" property="modifiedBy" jdbcType="INTEGER" />
+    <result column="modified_time" property="modifiedTime" jdbcType="DATE" />
+  	<result column="employee_name" property="employeeName" jdbcType="INTEGER" />
+    <result column="site_name" property="siteName" jdbcType="INTEGER" />
+    <result column="user_type_name" property="userTypeName" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, user_name, user_pwd, user_type, employee_id, remark, created_by, created_time, 
+    modified_by, modified_time
+  </sql>
+  <select id="getUserByPage" resultMap="BaseResultMapEx"  >
+    select a.user_id,
+		a.user_name,
+		a.user_pwd,
+		a.user_type,
+		a.employee_id,
+		(CASE 
+			WHEN a.user_type = 1 THEN
+				'管理员'
+			ELSE
+				'普通用户' END) as user_type_name,
+		a.remark,
+		a.created_by,
+		a.created_time,
+		a.modified_by,
+		a.modified_time,
+		b.`name` as employee_name,
+		c.`dept_name` as site_name
+ 	from hs_auth_user a 
+		left join hs_auth_employee b on  b.id = a.employee_id
+		left join hs_basic_dept c on c.dept_id = b.site_id 
+		where 1=1
+    <if test="userName != null" >
+       and a.user_name = #{userName,jdbcType=VARCHAR}
+    </if>
+    <if test="userType != null" >
+       and a.user_type = #{userType,jdbcType=VARCHAR}
+    </if>
+    <if test="employeeId != null" >
+       and b.id = #{employeeId,jdbcType=BIGINT}
+    </if>
+    <if test="employeeName != null" >
+       and b.name = #{employeeName,jdbcType=BIGINT}
+    </if>
+    <if test="siteName != null" >
+       and c.dept_name = #{siteName,jdbcType=BIGINT}
+    </if>
+    limit #{offset},#{pageSize}
+  </select>
+  <select id="getCounts" resultType="java.lang.Integer" >
+    select count(1)
+ 	from hs_auth_user a 
+		left join hs_auth_employee b on  b.id = a.employee_id
+		left join hs_basic_dept c on c.dept_id = b.site_id 
+		where 1=1
+    <if test="userName != null" >
+       and a.user_name = #{userName,jdbcType=VARCHAR}
+    </if>
+    <if test="userType != null" >
+       and a.user_type = #{userType,jdbcType=VARCHAR}
+    </if>
+    <if test="employeeId != null" >
+       and b.id = #{employeeId,jdbcType=BIGINT}
+    </if>
+    <if test="employeeName != null" >
+       and b.name = #{employeeName,jdbcType=BIGINT}
+    </if>
+    <if test="siteName != null" >
+       and c.dept_name = #{siteName,jdbcType=BIGINT}
+    </if>
+  </select>
+  <select id="selectUserById" resultMap="BaseResultMapEx" parameterType="java.lang.Integer" >
+    select a.user_id,
+		a.user_name,
+		a.user_pwd,
+		a.user_type,
+		a.employee_id,
+		(CASE 
+			WHEN a.user_type = 1 THEN
+				'管理员'
+			ELSE
+				'普通用户' END) as user_type_name,
+		a.remark,
+		a.created_by,
+		a.created_time,
+		a.modified_by,
+		a.modified_time,
+		b.`name` as employee_name,
+		c.`name`
+ 		from hs_auth_user a 
+		left join hs_auth_employee b on  b.id = a.employee_id
+		left join hs_auth_organization c on c.id = b.site_id 
+    	where a.user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="getUserName" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from hs_auth_user
+    where 
+    user_name = #{name} 
+  </select>
+  <select id="getUserNameAndId" resultMap="BaseResultMap" parameterType="com.ane.main.domain.User"   >
+    select 
+    <include refid="Base_Column_List" />
+    from hs_auth_user
+    where 
+    user_name = #{userName,jdbcType=VARCHAR} and user_id = #{userId,jdbcType=INTEGER} 
+  </select>
+  <delete id="delete" parameterType="java.lang.Long" >
+    delete from hs_auth_user
+    where 
+    user_id = #{id,jdbcType=BIGINT}
+  </delete>
+  <select id="login" resultMap="BaseResultMap" parameterType="com.ane.main.domain.User" >
+    select 
+    <include refid="Base_Column_List" />
+    from hs_auth_user
+    where user_name = #{userName,jdbcType=VARCHAR}
+    and user_pwd = #{userPwd,jdbcType=VARCHAR}
+  </select>
+ <insert id="insert" parameterType="com.ane.main.domain.User" >
+    insert into hs_auth_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userPwd != null" >
+        user_pwd,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+      <if test="employeeId != null" >
+        employee_id,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="createdTime != null" >
+       created_time,
+      </if>
+      <if test="modifiedBy != null" >
+        modified_by,
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPwd != null" >
+        #{userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="employeeId != null" >
+        #{employeeId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        now(),
+      </if>
+      <if test="modifiedBy != null" >
+        #{modifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="modifiedTime != null" >
+        #{modifiedTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+ <update id="update" parameterType="com.ane.main.domain.User" >
+    update hs_auth_user
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPwd != null" >
+        user_pwd = #{userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="employeeId != null" >
+        employee_id = #{employeeId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=DATE},
+      </if>
+      <if test="modifiedBy != null" >
+        modified_by = #{modifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time = now(),
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updatePsw" parameterType="java.lang.Integer" >
+    update hs_auth_user set
+        user_pwd = 888888
+    where user_id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

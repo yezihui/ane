@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ane.basic.dao.BasicAddressLibraryDao" >
+  <resultMap id="BaseResultMap" type="com.ane.basic.domain.BasicAddressLibrary" >
+    <id column="ADDRESS_LIBRART_ID" property="addressLibrartId" jdbcType="INTEGER" />
+    <result column="PROVINCE_ID" property="provinceId" jdbcType="INTEGER" />
+    <result column="CITY_ID" property="cityId" jdbcType="INTEGER" />
+    <result column="AREA_ID" property="areaId" jdbcType="INTEGER" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="FULL_ADDRESS" property="fullAddress" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ADDRESS_LIBRART_ID, PROVINCE_ID, CITY_ID, AREA_ID, ADDRESS,FULL_ADDRESS
+  </sql>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from hs_basic_address_library
+    where ADDRESS_LIBRART_ID = #{addressLibrartId,jdbcType=INTEGER}
+  </select>
+ 
+  <insert id="insert" parameterType="com.ane.basic.domain.BasicAddressLibrary" >
+    insert into hs_basic_address_library (ADDRESS_LIBRART_ID, PROVINCE_ID, CITY_ID, 
+      AREA_ID, ADDRESS,FULL_ADDRESS)
+    values (#{addressLibrartId,jdbcType=INTEGER}, #{provinceId,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, 
+      #{areaId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR},#{fullAddress,jdbcType=VARCHAR})
+  </insert>
+  
+  <select id="getMaxId" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from  hs_basic_address_library o
+	WHERE
+		o.ADDRESS_LIBRART_ID = (
+			SELECT
+				max(ADDRESS_LIBRART_ID) addressLibrartId
+			FROM
+				hs_basic_address_library
+		)
+  </select>
+  
+</mapper>

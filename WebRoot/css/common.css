@@ -1,0 +1,24 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*标签通用样式*/
+body {height:100%;font-size: 12px; font-family:arial,"Microsoft Yahei","Hiragino Sans GB",sans-serif;
+background: #e6e6e6;}
+body a {cursor:pointer;text-decoration: none;color:#F48400;}
+table td { word-break:break-all; word-wrap:break-word;}
+textarea { background:transparent;}
+object { display:none;}
+
+/** 清除边距 **/
+body,h1,h2,h3,h4,h5,h6,p,blockquote,pre, /* structural elements 结构元素 */
+dl,dt,dd,ul,ol,li, /* list elements 列表元素 */
+form,fieldset,legend,button,input,textarea,a,div,span,img,/* form elements 表单元素 */
+th,td, /* table elements 表格元素 */
+head,section,nav,footer /* html5 新增标签*/ { margin:0; padding:0;}
+/*去除元素轮廓---fbx---*/
+div,table,form,input,button,select,textarea,fieldset,legend{ outline:none;}/* for google / safari*/
+/** 重置列表元素 **/
+ul,ol{ list-style:none outside none;}
+table{border-collapse:collapse;}
+
+

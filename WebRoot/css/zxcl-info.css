@@ -1,0 +1,128 @@
+@import url("list.css");
+@charset "utf-8";
+/* CSS Document */
+
+/**详细信息**/
+.info{
+	overflow:hidden; 
+	background: #FFF;
+	height: 150%;
+	!important;
+}
+.info>div{
+	width:1320px;
+	margin:20px auto 0px auto;
+}
+.info .input-div{
+	width:262px;
+	margin:15px 0px; 
+}
+.info input[type='text']{
+	width: 145px;
+}
+
+.info select{
+	width: 167px;
+}
+.info .textarea-div{
+	float:left;
+}
+.info .textarea-div label{
+	float:left;
+	margin:55px 4px 0px 42px;
+}
+.info textarea{
+	background: #FBFBFB;
+	height: 100px;
+	width:calc(100vw - (102px));
+	width:-moz-calc(100% - (166px));
+	width:-m-calc(100% - (166px));
+	width:-o-calc(100% - (166px));
+	width:-webkit-calc(100vw - (166px));
+}
+.info .upload{
+	float:left;
+	padding:10px 0px 0px 40px; 
+}
+.info .upload label{
+	width:160px;
+}
+/**中心差错处理**/
+.handle{
+	background: #FFF;
+	min-height:95%;
+	padding:1%;
+}
+.handle table{
+	width:1300px;
+	margin:auto; 
+}
+.handle .relation th{
+	border: 1px solid #C9C9C9;
+	line-height: 40px;
+	background:#FFF;
+}
+.handle .add-btn{
+	width:20px;
+	position:absolute;
+	margin:10px 0px 0px 30px;
+	cursor:pointer;
+}
+.handle .relation tbody{
+	border-left: 1px solid #C9C9C9;
+	border-right: 1px solid #C9C9C9;
+}
+.handle .relation td{
+	height:50px;
+	line-height: 50px;
+	text-align:center;
+	border-bottom: 1px solid #C9C9C9;
+}
+.handle .remove-btn{
+	width:20px;
+	float:right;
+	margin-right:5px;
+	cursor:pointer;
+}
+.handle .relation input[type='text'],
+.handle .relation select{
+	height: 30px;
+	line-height: 30px;
+	padding: 0px 10px;
+	border: none;
+	border-radius:5px;
+	background:#FBFBFB;
+	width:170px;
+}
+
+.handle>div{
+	width:1300px;
+	margin:auto; 
+	overflow:hidden;
+}
+.handle .input-div{
+	width:300px;
+	margin:40px 0px 5px 0px;
+	text-align:left; 
+}
+.handle div input[type='text'],
+.handle div select{
+	width: 200px;
+	background:#FBFBFB;
+}
+.handle .textarea-div{
+	float:left;
+}
+.handle .textarea-div label{
+	float:left;
+	margin:55px 4px 0px 0px;
+}
+.handle textarea{
+	background: #FBFBFB;
+	height: 100px;
+	width:calc(100vw - (134px));
+	width:-moz-calc(100vw - (134px));
+	width:-m-calc(100vw - (134px));
+	width:-o-calc(100vw - (134px));
+	width:-webkit-calc(100vw - (134px));
+}

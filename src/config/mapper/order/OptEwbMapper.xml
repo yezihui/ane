@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ane.order.dao.OptEwbDao">
+	<resultMap id="BaseResultMap" type="com.ane.order.domain.OptEwb">
+		<id column="ewb_no" property="ewbNo" jdbcType="VARCHAR" />
+		<result column="order_id" property="orderId" jdbcType="BIGINT" />
+		<result column="send_site_id" property="sendSiteId" jdbcType="BIGINT" />
+		<result column="receive_site_id" property="receiveSiteId"
+			jdbcType="BIGINT" />
+		<result column="send_employee" property="sendEmployee"
+			jdbcType="BIGINT" />
+		<result column="receive_employee" property="receiveEmployee"
+			jdbcType="BIGINT" />
+		<result column="state" property="state" jdbcType="INTEGER" />
+		<result column="sendSiteName" property="sendSiteName" jdbcType="VARCHAR" />
+		<result column="receiveSiteName" property="receiveSiteName"
+			jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="DATE" />
+		<result column="update_time" property="updateTime" jdbcType="DATE" />
+	</resultMap>
+
+	<resultMap id="BaseResult" type="com.ane.order.domain.OptEwb">
+		<id column="ewb_no" property="ewbNo" jdbcType="VARCHAR" />
+		<result column="order_id" property="orderId" jdbcType="BIGINT" />
+		<result column="SEND_TIME" property="sendTime" jdbcType="VARCHAR" />
+		<result column="receive_site_name" property="receiveSiteName"
+			jdbcType="BIGINT" />
+		<result column="send_site_name" property="sendSiteName" jdbcType="BIGINT" />
+		<result column="produce_name" property="produceName" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="INTEGER" />
+		<result column="full_address" property="fullAddress" jdbcType="VARCHAR" />
+		<result column="pay_mode" property="payMode" jdbcType="INTEGER" />
+		<result column="CALC_WEIGHT" property="calcWeight" jdbcType="DOUBLE" />
+		<result column="PIECE" property="piece" jdbcType="INTEGER" />
+		<result column="update" property="update" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ewb_no, order_id, send_site_id, receive_site_id,
+		send_employee,
+		receive_employee,
+		state, create_time, update_time
+	</sql>
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		a.* ,
+		(select b.`name` from hs_auth_organization b where
+		b.id=a.send_site_id ) as
+		sendSiteName,
+		(select b.`name` from
+		hs_auth_organization b where b.id=a.receive_site_id )
+		as
+		receiveSiteName
+		from hs_opt_ewb a
+		where a.ewb_no =
+		#{ewbNo,jdbcType=VARCHAR}
+	</select>
+
+	<select id="ewbInfo" resultMap="BaseResult" parameterType="java.lang.String">
+		SELECT
+		e.ewb_no,
+		date_format(
+		o.SEND_TIME,
+		'%Y-%c-%d %h:%i:%s'
+		) SEND_TIME,
+		e.state,
+		(select au.name from hs_auth_organization au where au.id = e.send_site_id)
+		send_site_name,
+		(select au.name from hs_auth_organization au where au.id = e.receive_site_id)
+		receive_site_name,
+		o.PRODUCE_NAME,
+		o.PIECE,
+		o.CALC_WEIGHT CALC_WEIGHT,
+		(select de.name from hs_basic_dictionary de where de.id = o.PAY_MODE_ID)
+		pay_mode,
+		date_format(
+		e.update_TIME,
+		'%Y-%c-%d %h:%i:%s'
+		) `update`,
+		(
+		SELECT
+		l.FULL_ADDRESS
+		FROM
+		hs_basic_address_library l
+		WHERE
+		l.ADDRESS_LIBRART_ID = o.SEND_CUSTOMER_ADDRESS_ID
+		) full_address
+		FROM
+		hs_opt_ewb e
+		LEFT JOIN hs_opt_order o ON o.order_id = e.order_id
+		where e.ewb_no =
+		#{ewbNo,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		hs_opt_ewb
+		where ewb_no = #{ewbNo,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.ane.order.domain.OptEwb">
+		insert into hs_opt_ewb
+		(ewb_no, order_id, send_site_id,
+		receive_site_id, send_employee,
+		receive_employee,
+		state, create_time, update_time
+		)
+		values
+		(#{ewbNo,jdbcType=VARCHAR}, #{orderId,jdbcType=BIGINT},
+		#{sendSiteId,jdbcType=BIGINT},
+		#{receiveSiteId,jdbcType=BIGINT},
+		#{sendEmployee,jdbcType=BIGINT}, #{receiveEmployee,jdbcType=BIGINT},
+		#{state,jdbcType=INTEGER}, #{createTime,jdbcType=DATE},
+		#{updateTime,jdbcType=DATE}
+		)
+	</insert>
+	
+	<update id="update" parameterType="com.ane.order.domain.OptEwb">
+		update hs_opt_ewb
+		<set>
+			<if test="orderId != null">
+				order_id = #{orderId,jdbcType=BIGINT},
+			</if>
+			<if test="sendSiteId != null">
+				send_site_id = #{sendSiteId,jdbcType=BIGINT},
+			</if>
+			<if test="receiveSiteId != null">
+				receive_site_id = #{receiveSiteId,jdbcType=BIGINT},
+			</if>
+			<if test="sendEmployee != null">
+				send_employee = #{sendEmployee,jdbcType=BIGINT},
+			</if>
+			<if test="receiveEmployee != null">
+				receive_employee = #{receiveEmployee,jdbcType=BIGINT},
+			</if>
+			<if test="state != null">
+				state = #{state,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=DATE},
+			</if>
+			<if test="1==1">
+				update_time = now(),
+			</if>
+		</set>
+		where ewb_no = #{ewbNo,jdbcType=VARCHAR}
+	</update>
+	
+</mapper>

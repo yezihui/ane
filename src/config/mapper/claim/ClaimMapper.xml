@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ane.claim.dao.ClaimMapper">
+	<resultMap id="BaseResultMap" type="com.ane.claim.domain.Claim">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="ewb_No" property="ewbNo" jdbcType="VARCHAR" />
+		<result column="product_name" property="productName" jdbcType="VARCHAR" />
+		<result column="send_time" property="sendDate" jdbcType="VARCHAR" />
+		<result column="apply_time" property="applyTime" jdbcType="VARCHAR" />
+		<result column="audit_time" property="auditTime" jdbcType="VARCHAR" />
+		<result column="apply_type" property="applyType" jdbcType="VARCHAR" />
+		<result column="amount" property="amount" jdbcType="DOUBLE" />
+		<result column="claim_name" property="claimName" jdbcType="VARCHAR" />
+		<result column="claim_phone" property="claimPhone" jdbcType="VARCHAR" />
+		<result column="apply_reason" property="applyReason" jdbcType="VARCHAR" />
+		<result column="apply_state" property="applyState" jdbcType="VARCHAR" />
+		<result column="comfirm_state" property="comfirmState"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="BaseResult" type="com.ane.claim.domain.Claim">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="ewb_No" property="ewbNo" jdbcType="VARCHAR" />
+		<result column="product_name" property="productName" jdbcType="VARCHAR" />
+		<result column="send_time" property="sendDate" jdbcType="VARCHAR" />
+		<result column="apply_time" property="applyTime" jdbcType="VARCHAR" />
+		<result column="audit_time" property="auditTime" jdbcType="VARCHAR" />
+		<result column="apply_type" property="applyType" jdbcType="VARCHAR" />
+		<result column="amount" property="amount" jdbcType="DOUBLE" />
+		<result column="c_amount" property="camount" jdbcType="DOUBLE" />
+		<result column="claim_amount" property="claimAmount" jdbcType="DOUBLE" />
+		<result column="safe" property="safe" jdbcType="VARCHAR" />
+		<result column="claim_name" property="claimName" jdbcType="VARCHAR" />
+		<result column="claim_phone" property="claimPhone" jdbcType="VARCHAR" />
+		<result column="apply_reason" property="applyReason" jdbcType="VARCHAR" />
+		<result column="apply_state" property="applyState" jdbcType="VARCHAR" />
+		<result column="comfirm_state" property="comfirmState"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, ewb_No, product_name, send_time, apply_time,
+		audit_time, apply_type,
+		amount, claim_name,
+		claim_phone, apply_reason,
+		apply_state, comfirm_state,created
+	</sql>
+	<select id="findById" resultMap="BaseResult" parameterType="java.lang.Long">
+		SELECT
+		c.*, d.amount AS c_amount,
+		d.claim_amount AS claim_amount,
+		(
+		CASE
+		WHEN d.safe = 0 then '是'
+		ELSE
+		'否'
+		END
+		) as safe
+		FROM
+		claim c
+		LEFT JOIN claim_detail d ON d.claim_id = c.id
+		where c.id =
+		#{id,jdbcType=BIGINT}
+	</select>
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from claim
+		where id =
+		#{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.ane.claim.domain.Claim">
+		insert into claim ( ewb_No,
+		product_name,
+		send_time, apply_time, audit_time,
+		apply_type,
+		amount,apply_state, claim_name,
+		claim_phone, apply_reason,created)
+		values (#{ewbNo,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR},
+		#{sendDate,jdbcType=VARCHAR}, #{applyTime,jdbcType=VARCHAR},
+		#{auditTime,jdbcType=VARCHAR},
+		#{applyType,jdbcType=VARCHAR},
+		#{amount,jdbcType=DOUBLE}, #{claimName,jdbcType=VARCHAR},
+		#{claimPhone,jdbcType=VARCHAR},
+		#{applyReason,jdbcType=VARCHAR},1,now())
+	</insert>
+
+	<select id="getArbitrationNum" resultType="java.lang.Integer">
+		select count(1) from
+		claim
+	</select>
+
+	<update id="update" parameterType="com.ane.claim.domain.Claim">
+		update claim
+		<set>
+			<if test="ewbNo != null">
+				ewb_No = #{ewbNo,jdbcType=VARCHAR},
+			</if>
+			<if test="productName != null">
+				product_name = #{productName,jdbcType=VARCHAR},
+			</if>
+			<if test="sendDate != null">
+				send_time = #{sendDate,jdbcType=VARCHAR},
+			</if>
+			<if test="applyTime != null">
+				apply_time = #{applyTime,jdbcType=VARCHAR},
+			</if>
+			<if test="auditTime != null">
+				audit_time = #{auditTime,jdbcType=VARCHAR},
+			</if>
+			<if test="applyType != null">
+				apply_type = #{applyType,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				amount = #{amount,jdbcType=DOUBLE},
+			</if>
+			<if test="claimName != null">
+				claim_name = #{claimName,jdbcType=VARCHAR},
+			</if>
+			<if test="claimPhone != null">
+				claim_phone = #{claimPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="applyReason != null">
+				apply_reason = #{applyReason,jdbcType=VARCHAR},
+			</if>
+			<if test="applyState != null">
+				apply_state = #{applyState,jdbcType=VARCHAR},
+			</if>
+			<if test="comfirmState != null">
+				comfirm_state = #{comfirmState,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<select id="searchByewb" resultMap="BaseResultMap">
+		select
+		id, ewb_No, product_name, send_time, apply_time, audit_time,
+		apply_type,
+		amount, claim_name,
+		claim_phone, apply_reason,
+		comfirm_state,created,(case when c.apply_state=1 THEN
+		'待处理'
+		when
+		c.apply_state=2 THEN
+		'处理完成，待审核'
+		when c.apply_state=3 THEN
+		'中心不处理'
+		when
+		c.apply_state=4 THEN
+		'审核通过'
+		when c.apply_state=5 THEN
+		'审核不通过'
+		when
+		c.apply_state=6 THEN
+		'网点已确认'
+		else '未知状态'
+		end) as apply_state
+		from claim c
+		<where>
+			<if test="ewbNo != null  and ewbNo !='' ">
+				AND c.`ewb_No` = #{ewbNo,jdbcType=VARCHAR}
+			</if>
+			<if test="applyState != null  and applyState !='' ">
+				AND c.`apply_state` = #{applyState,jdbcType=VARCHAR}
+			</if>
+			<if test="applyType != null  and applyType !='' ">
+				AND c.`apply_type` = #{applyType,jdbcType=VARCHAR}
+			</if>
+		</where>
+		limit #{offset},#{pageSize}
+	</select>
+
+	<select id="getArbitrationByPage" resultMap="BaseResultMap">
+		select c.* from claim c
+		left join arbitration a on a.ewb_no= c.ewb_no
+		<where>
+			<if test="applyType != null  and applyType !='' ">
+				AND c.`apply_type` = #{applyType,jdbcType=VARCHAR}
+			</if>
+			<if test="applyState != null  and applyState !='' ">
+				AND c.`apply_state` = #{applyState,jdbcType=VARCHAR}
+			</if>
+			<if test="siteId != null  and siteId !='' ">
+				AND a.apply_site_id= #{siteId,jdbcType=VARCHAR}
+			</if>
+		</where>
+		limit #{offset},#{pageSize}
+	</select>
+</mapper>

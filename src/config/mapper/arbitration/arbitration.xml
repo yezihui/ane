@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ane.arbitration.dao.ArbitrationDao" >
+  <resultMap id="BaseResultMap" type="com.ane.arbitration.domain.Arbitration" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="ewb_no" property="ewbNo" jdbcType="VARCHAR" />
+    <result column="product_type" property="productType" jdbcType="VARCHAR" />
+    <result column="apply_site_id" property="applySiteId" jdbcType="BIGINT" />
+    <result column="apply_site_name" property="applySiteName" jdbcType="VARCHAR" />
+    <result column="owner_site_id" property="ownerSiteId" jdbcType="BIGINT" />
+    <result column="owner_site_name" property="ownerSiteName" jdbcType="VARCHAR" />
+    <result column="apply_reason" property="applyReason" jdbcType="VARCHAR" />
+    <result column="apply_type" property="applyType" jdbcType="VARCHAR" />
+    <result column="apply_id" property="applyId" jdbcType="BIGINT" />
+    <result column="handler" property="handler" jdbcType="BIGINT" />
+    <result column="handler_name" property="handName" jdbcType="VARCHAR" />
+    <result column="send_time" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="sign_name" property="signName" jdbcType="VARCHAR" />
+    <result column="begin_station" property="beginStation" jdbcType="VARCHAR" />
+    <result column="end_station" property="endStation" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="pack_type" property="packType" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="piece" property="piece" jdbcType="BIGINT" />
+    <result column="calc_weight" property="calcWeight" jdbcType="DECIMAL" />
+    <result column="complaint_phone" property="complaintPhone" jdbcType="VARCHAR" />
+    <result column="complainant" property="complainant" jdbcType="BIGINT" />
+    <result column="sender" property="sender" jdbcType="VARCHAR" />
+    <result column="send_phone" property="sendPhone" jdbcType="VARCHAR" />
+    <result column="send_address" property="sendAddress" jdbcType="VARCHAR" />
+    <result column="recipient" property="recipient" jdbcType="VARCHAR" />
+    <result column="recipient_phone" property="recipientPhone" jdbcType="VARCHAR" />
+    <result column="recipient_address" property="recipientAddress" jdbcType="VARCHAR" />
+    <result column="creater" property="creater" jdbcType="BIGINT" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="updater" property="updater" jdbcType="BIGINT" />
+    <result column="updated" property="updated" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="BaseResult" type="com.ane.arbitration.domain.Arbitration" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="ewb_no" property="ewbNo" jdbcType="VARCHAR" />
+    <result column="product_type" property="productType" jdbcType="VARCHAR" />
+    <result column="apply_site_id" property="applySiteId" jdbcType="BIGINT" />
+    <result column="owner_site_id" property="ownerSiteId" jdbcType="BIGINT" />
+    <result column="apply_reason" property="applyReason" jdbcType="VARCHAR" />
+    <result column="apply_type" property="applyType" jdbcType="VARCHAR" />
+    <result column="handler" property="handler" jdbcType="BIGINT" />
+    <result column="send_time" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="sign_name" property="signName" jdbcType="VARCHAR" />
+    <result column="begin_station" property="beginStation" jdbcType="VARCHAR" />
+    <result column="end_station" property="endStation" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="pack_type" property="packType" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="piece" property="piece" jdbcType="BIGINT" />
+    <result column="calc_weight" property="calcWeight" jdbcType="DECIMAL" />
+    <result column="complaint_phone" property="complaintPhone" jdbcType="VARCHAR" />
+    <result column="complainant" property="complainant" jdbcType="BIGINT" />
+    <result column="sender" property="sender" jdbcType="VARCHAR" />
+    <result column="send_phone" property="sendPhone" jdbcType="VARCHAR" />
+    <result column="send_address" property="sendAddress" jdbcType="VARCHAR" />
+    <result column="recipient" property="recipient" jdbcType="VARCHAR" />
+    <result column="recipient_phone" property="recipientPhone" jdbcType="VARCHAR" />
+    <result column="recipient_address" property="recipientAddress" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <resultMap id="BaseResult1" type="com.ane.arbitration.domain.Arbitration" >
+    <result column="ewb_no" property="ewbNo" jdbcType="VARCHAR" />
+    <result column="send_time" property="sendDate" jdbcType="VARCHAR" />
+    <result column="apply_time" property="applyTime" jdbcType="VARCHAR" />
+    <result column="audit_time" property="auditTime" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="apply_type" property="applyType" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="PRODUCE_NAME" property="productName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+   id, ewb_no, apply_site_id, owner_site_id, apply_reason, apply_type, handler, 
+    send_time, sign_name, begin_station, end_station, product_name, pack_type, amount,piece,calc_weight, 
+    complaint_phone, complainant, sender, send_phone, send_address, recipient, recipient_phone, 
+    recipient_address, creater, created, updater, updated, `status`
+  </sql>
+  <select id="findByEwbNo" resultMap="BaseResult" parameterType="java.lang.String" >
+    select 
+    e.ewb_no,
+	(select dic.`name` from hs_basic_dictionary dic where dic.id=a.produce_type_id) as product_type,
+	(case when e.state=4 then '已签收'
+				when e.state=5 then '异常签收'
+				else '未签收' end) as sign_name,
+	a.piece,
+	a.calc_weight,
+	(select o.`name` from hs_auth_organization o where o.id=e.send_site_id) as begin_station,
+	(select o.`name` from hs_auth_organization o where o.id=e.receive_site_id) as end_station,
+	a.produce_name as product_name,
+	a.pick_name as pack_type,
+	a.SEND_CUSTOMER as sender,
+	a.SEND_PHONE as send_phone,
+	a.SEND_TIME as send_time,
+	(select addr.FULL_ADDRESS from hs_basic_address_library addr where addr.ADDRESS_LIBRART_ID = a.SEND_CUSTOMER_ADDRESS_ID) as send_address,
+	a.RECEIVE_CUSTOMER as recipient,
+	a.RECEIVE_PHONE as recipient_phone,
+	(select addr.FULL_ADDRESS from hs_basic_address_library addr where addr.ADDRESS_LIBRART_ID = a.Receive_CUSTOMER_ADDRESS_ID) as recipient_address
+	from hs_opt_order a 
+	left join hs_opt_ewb e on  e.order_id = a.ORDER_ID
+	where e.ewb_no = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findByClaim" resultMap="BaseResult1" parameterType="java.lang.String" >
+    SELECT
+	e.ewb_no,
+	date_format(o.SEND_TIME,'%Y-%c-%d %h:%i:%s') as SEND_TIME,
+	date_format(a.created,'%Y-%c-%d %h:%i:%s') as apply_time,
+	DATE_FORMAT((
+		SELECT h.created from arbitration_handler h where h.arbitration_id=a.id and h.`status`='7'
+	),'%Y-%c-%d %h:%i:%s') as audit_time,
+	a.apply_type,
+	a.amount,
+	o.PRODUCE_NAME 
+	FROM arbitration a
+	LEFT JOIN hs_opt_ewb e on e.ewb_no = a.ewb_no
+	LEFT JOIN hs_opt_order o on o.ORDER_ID=e.order_id
+	where e.ewb_no = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, ewb_no, apply_site_id,
+	(select o.`name` from hs_auth_organization o where o.id = apply_site_id) as apply_site_name,
+	 owner_site_id,
+	(select o.`name` from hs_auth_organization o where o.id = owner_site_id) as owner_site_name,
+	 apply_reason, apply_type,
+	(select t.`id` from arbitration_type t where t.`name` = apply_type) as apply_id, handler, 
+	(select emp.name from hs_auth_employee emp where emp.id = handler) as handler_name,
+    send_time, sign_name, begin_station, end_station, product_name, pack_type, amount, product_type,piece,calc_weight,
+    complaint_phone, complainant, sender, send_phone, send_address, recipient, recipient_phone, 
+    recipient_address, creater, created, updater, updated, 
+    (case when `status`=1 then '已分中心'
+				when `status`=2 then '已接单，处理中'
+				when `status`=3 then '处理完毕，待审核'
+				when `status`=4 then '已下发通知，生效中'
+				when `status`=5 then '仲裁审批不通过'
+				when `status`=6 then '中心处理中'
+				when `status`=7 then '结算审核通过'
+				when `status`=8 then '不予接单'
+				else '未知状态' end) as `status`
+    from arbitration
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <!-- 分页查询所有 -->
+
+  <!-- 查询记录数 -->
+  <select id="getArbitrationNum" resultType="java.lang.Integer">
+  	select count(1) from arbitration
+  </select>
+  
+  
+   <select id="getArbitrationByPage" resultMap="BaseResultMap" >
+    select id, ewb_no, apply_site_id,
+	(select o.`name` from hs_auth_organization o where o.id = apply_site_id) as apply_site_name,
+	 owner_site_id,
+	(select o.`name` from hs_auth_organization o where o.id = owner_site_id) as owner_site_name,
+	 apply_reason, apply_type,
+	(select t.`id` from arbitration_type t where t.`name` = apply_type) as apply_id, handler, 
+	(select emp.name from hs_auth_employee emp where emp.id = handler) as handler_name,
+    send_time, sign_name, begin_station, end_station, product_name, pack_type, amount, product_type,piece,calc_weight,
+    complaint_phone, complainant, sender, send_phone, send_address, recipient, recipient_phone, 
+    recipient_address, creater, created, updater, updated, (case when `status`=1 then '已分中心'
+				when `status`=2 then '已接单，处理中'
+				when `status`=3 then '处理完毕，待审核'
+				when `status`=4 then '已下发通知，生效中'
+				when `status`=5 then '仲裁审批不通过'
+				when `status`=6 then '中心处理中'
+				when `status`=7 then '结算审核通过'
+				when `status`=8 then '不予接单'
+				else '未知状态' end) as `status` from arbitration
+	<where>
+	    <if test="applySiteName != null  and applySiteName !='' " >
+        	AND (select o.`name` from hs_auth_organization o where o.id = apply_site_id) = #{applySiteName,jdbcType=VARCHAR}
+      	</if>
+      	<if test="ownerSiteName != null  and ownerSiteName !='' " >
+        	AND (select o.`name` from hs_auth_organization o where o.id = owner_site_id) = #{ownerSiteName,jdbcType=VARCHAR}
+      	</if>
+      	<if test="signName != null  and signName !='' " >
+        	AND sign_name = #{signName,jdbcType=VARCHAR}
+      	</if>
+      	<if test="applyType != null  and applyType !='' " >
+        	AND `apply_type` = #{applyType,jdbcType=VARCHAR}
+      	</if>
+      	<if test="status != null  and status !='' " >
+        	AND `status` = #{status,jdbcType=VARCHAR}
+      	</if>
+      	<if test="delay != null  and delay !='' " >
+        	or `status` =#{delay,jdbcType=INTEGER}
+      	</if>
+      	<if test="handler != null  and handler !='' " >
+        	AND handler = #{handler,jdbcType=VARCHAR}
+      	</if>
+      	<if test="start !=null and start !='' ">
+				AND `created` &gt;= #{start} 
+		</if>    
+		<if test="end !=null and end !='' ">
+			AND `created` &lt;= #{end} 
+		</if> 
+	</where>
+	 limit #{offset},#{pageSize}
+  </select>
+  
+  <select id="searchByEwbNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+     select id, ewb_no, apply_site_id,
+	(select o.`name` from hs_auth_organization o where o.id = apply_site_id) as apply_site_name,
+	 owner_site_id,
+	(select o.`name` from hs_auth_organization o where o.id = owner_site_id) as owner_site_name,
+	 apply_reason, apply_type,
+	(select t.`id` from arbitration_type t where t.`name` = apply_type) as apply_id, handler, 
+	(select emp.name from hs_auth_employee emp where emp.id = handler) as handler_name,
+    send_time, sign_name, begin_station, end_station, product_name, pack_type, amount, product_type,piece,calc_weight,
+    complaint_phone, complainant, sender, send_phone, send_address, recipient, recipient_phone, 
+    recipient_address, creater, created, updater, updated, (case when `status`=1 then '已分中心'
+				when `status`=2 then '已接单，处理中'
+				when `status`=3 then '处理完毕，待审核'
+				when `status`=4 then '已下发通知，生效中'
+				when `status`=5 then '仲裁审批不通过'
+				when `status`=6 then '中心处理中'
+				when `status`=7 then '结算审核通过'
+				when `status`=8 then '不予接单'
+				else '未知状态' end) as `status` from arbitration
+	<where>
+	    <if test="ewbNo != null  and ewbNo !='' " >
+        	AND `ewb_no` = #{ewbNo,jdbcType=VARCHAR}
+      	</if>
+      	<if test="status != null  and status !='' " >
+        	AND `status` = #{status,jdbcType=VARCHAR}
+      	</if>
+      	<if test="handler != null  and handler !='' " >
+        	AND handler = #{handler,jdbcType=VARCHAR}
+      	</if>
+	</where>
+	 limit #{offset},#{pageSize}
+  </select>
+  <!-- 按运单号查询 -->
+  <select id="searchByEwb" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    SELECT 
+    a.id,
+	a.ewb_no ewbNo,<!-- 运单号 -->
+	b.name applySiteName,<!-- 申报站点名-->
+	c.name typeName,<!-- 申报类型名-->
+	a.status status,<!-- 申报状态-->
+	a.created created, <!-- 申报人-->
+	a.complainant complainant,<!-- 投诉人-->
+	a.handler handler,	<!-- 处理人-->
+	(select emp.name from hs_auth_employee emp where emp.id = a.handler) as handler_name,
+	a.handle_time handle_time, <!-- 处理时间-->
+	FROM arbitration a
+	LEFT JOIN hs_auth_organization b on b.id = a.apply_site_id
+	LEFT JOIN arbitration_type c on c.name = a.apply_type
+	<where> 
+		<if test="ewb_no !=null  and ewb_no !=''">
+			a.ewb_no = #{ewb_no,jdbcType=VARCHAR}
+		</if>
+	</where>
+  </select>
+  
+  <!-- 按运单号查询 -->
+  <select id="searchByEwbOnStatus" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    SELECT 
+    a.id,
+	a.ewb_no ewbNo,<!-- 运单号 -->
+	b.name applySiteName,<!-- 申报站点名-->
+	c.name typeName,<!-- 申报类型名-->
+	a.status status,<!-- 申报状态-->
+	a.created created <!-- 申报人-->
+	(select emp.name from hs_auth_employee emp where emp.id = a.handler) as handler_name,
+	FROM arbitration a
+	LEFT JOIN hs_auth_organization b on b.id = a.apply_site_id
+	LEFT JOIN arbitration_type c on c.name = a.apply_type
+	<where> 
+		<if test="ewb_no !=null  and ewb_no !=''">
+			a.ewb_no = #{ewb_no,jdbcType=VARCHAR} AND a.status = '1';
+		</if>
+		
+	</where>
+  </select>
+   <!-- 按条件查询 -->
+  <select id="searchByCondition" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    SELECT 
+    a.id,
+	a.ewb_no ewbNo,<!--运单号-->
+	b.name applySiteName,
+	c.name typeName,
+	a.status status,
+	a.apply_type applytype,<!--申报类型-->
+	a.apply_site_id applysite,<!--申报网点-->
+	a.created created,<!--创建日期（申报日期）-->
+	a.end_station endstation,<!--目的站-->
+	a.complainant complainant,<!--投诉人-->
+	a.handler handler,<!--处理人-->
+	(select emp.name from hs_auth_employee emp where emp.id = a.handler) as handler_name,
+	a.handle_time handle_time,<!--处理时间-->
+	a.product_name productname,<!--物品名称-->
+	a.amount amoun,<!--索赔金额-->
+	a.pack_type packtype<!--包装类型-->
+	FROM arbitration a
+	LEFT JOIN hs_auth_organization b on b.id = a.apply_site_id
+	LEFT JOIN arbitration_type c on c.name = a.apply_type
+	LEFT JOIN hs_auth_organization d on d.id = a.owner_site_id
+	<where>
+		<if test="condition !=null ">
+			<if test="condition.ewbNo != null  and condition.ewbNo !='' ">
+				AND a.ewb_no = #{condition.ewbNo,jdbcType=VARCHAR}
+			</if>
+			<if test="condition.reportsite != null  and condition.reportsite !='' ">
+				AND a.apply_site_id = #{condition.reportsite} 
+			</if>
+			<if test="condition.reporttype != null  and condition.reporttype !=''">
+				AND a.apply_type = #{condition.reporttype} 
+			</if>
+			<if test="condition.start !=null and condition.start !='' ">
+				AND a.created &gt;= #{condition.start} 
+			</if>    
+			<if test="condition.end !=null and condition.end !='' ">
+				AND a.created &lt;= #{condition.end} 
+			</if> 
+			<if test="condition.isDeclare != null  and condition.site != null ">
+				AND d.name = #{condition.site} 
+			</if>
+			<if test="condition.isDeclare == null and condition.site != null ">
+				AND b.name = #{condition.site} 
+			</if>
+			<if test="condition.state != null ">
+				AND a.`status` in
+					<foreach item="item" index="index" collection="condition.state"
+						open="(" separator="," close=")">
+						#{item}
+					</foreach>
+			</if>
+			<if test="condition.states != null  and condition.states !='' ">
+				AND a.status = #{condition.states} 
+			</if>
+			<if test="condition.types != null ">
+				AND c.id in
+					<foreach item="item" index="index" collection="condition.types"
+						open="(" separator="," close=")">
+						#{item}
+					</foreach>
+			</if>
+			<if test="condition.declarestate != null ">
+				AND a.`status` in
+					<foreach item="item" index="index" collection="condition.declarestate"
+						open="(" separator="," close=")">
+						#{item}
+					</foreach>
+			</if>
+			<if test="condition.declaretypes !=null and condition.declaretypes !='' ">
+				AND a.apply_type= #{condition.declaretypes} 
+			</if>
+			<if test="condition.type != null and condition.type != 0">
+				AND c.id = #{condition.type} 
+			</if>
+
+		</if>  
+	</where>
+  </select>
+  
+  <!-- 按id查询仲裁主表 -->
+  <select id="getMain" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    SELECT
+	a.id, 
+	b.name applySiteName,
+	c.name ownerSiteName, 
+	a.apply_reason applyReason, 
+	d.name typeName, 
+	a.ewb_no , 
+	a.begin_station , 
+	a.end_station, 
+	a.product_name, 
+	a.pack_type, 
+	a.amount, 
+	a.income_amount, 
+	a.complaint_phone, 
+	a.complainant, sender, 
+	a.send_phone, 
+	a.send_address, 
+	a.recipient,
+	a.recipient_phone, 
+	a.recipient_address, 
+	a.proof, 
+	a.value,
+	(select emp.name from hs_auth_employee emp where emp.id = a.handler) as handler_name,
+	FROM arbitration a
+	LEFT JOIN hs_auth_organization b on b.id = a.apply_site_id
+	LEFT JOIN hs_auth_organization c on c.id = a.owner_site_id
+	LEFT JOIN arbitration_type d on d.name = a.apply_type
+	WHERE a.id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.Long" >
+    delete from arbitration
+    where id = #{id,jdbcType=BIGINT} 
+  </delete>
+  
+  
+  <insert id="add" parameterType="com.ane.arbitration.domain.Arbitration" >
+    insert into arbitration
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
+      <if test="ewbNo != null" >
+        ewb_no,
+      </if>
+      <if test="applySiteId != null" >
+        apply_site_id,
+      </if>
+      <if test="productType != null" >
+        product_type,
+      </if>
+      <if test="ownerSiteId != null" >
+        owner_site_id,
+      </if>
+      <if test="applyReason != null" >
+        apply_reason,
+      </if>
+      <if test="applyType != null" >
+        apply_type,
+      </if>
+      <if test="handler!= null" >
+        handler,
+      </if>
+      <if test="sendTime != null" >
+        send_time,
+      </if>
+      <if test="signName != null" >
+        sign_name,
+      </if>
+      <if test="beginStation != null" >
+        begin_station,
+      </if>
+      <if test="endStation != null" >
+        end_station,
+      </if>
+      <if test="productName != null" >
+        product_name,
+      </if>
+      <if test="packType != null" >
+        pack_type,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="piece != null" >
+        piece,
+      </if>
+      <if test="calcWeight != null" >
+        calc_weight,
+      </if>
+      <if test="complaintPhone != null" >
+        complaint_phone,
+      </if>
+      <if test="complainant != null" >
+        complainant,
+      </if>
+      <if test="sender != null" >
+        sender,
+      </if>
+      <if test="sendPhone != null" >
+        send_phone,
+      </if>
+      <if test="sendAddress != null" >
+        send_address,
+      </if>
+      <if test="recipient != null" >
+        recipient,
+      </if>
+      <if test="recipientPhone != null" >
+        recipient_phone,
+      </if>
+      <if test="recipientAddress != null" >
+        recipient_address,
+      </if>
+      <if test="creater != null" >
+        creater,
+      </if>
+      <if test="1 != 0" >
+        created,
+      </if>
+      <if test="updater != null" >
+        updater,
+      </if>
+      <if test="updated != null" >
+        updated,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=BIGINT},
+      <if test="ewbNo != null" >
+        #{ewbNo,jdbcType=VARCHAR},
+      </if>
+      <if test="applySiteId != null" >
+        #{applySiteId,jdbcType=BIGINT},
+      </if>
+      <if test="productType != null" >
+       #{productType,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerSiteId != null" >
+        #{ownerSiteId,jdbcType=BIGINT},
+      </if>
+      <if test="applyReason != null" >
+        #{applyReason,jdbcType=VARCHAR},
+      </if>
+      <if test="applyType != null" >
+        #{applyType,jdbcType=VARCHAR},
+      </if>
+      <if test="handler != null" >
+        #{handler,jdbcType=BIGINT},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signName != null" >
+        #{signName,jdbcType=VARCHAR},
+      </if>
+      <if test="beginStation != null" >
+        #{beginStation,jdbcType=VARCHAR},
+      </if>
+      <if test="endStation != null" >
+        #{endStation,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="packType != null" >
+        #{packType,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="piece != null" >
+        #{piece,jdbcType=BIGINT},
+      </if>
+      <if test="calcWeight != null" >
+        #{calcWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="complaintPhone != null" >
+        #{complaintPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="complainant != null" >
+        #{complainant,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null" >
+        #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="sendPhone != null" >
+        #{sendPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="sendAddress != null" >
+        #{sendAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="recipient != null" >
+        #{recipient,jdbcType=VARCHAR},
+      </if>
+      <if test="recipientPhone != null" >
+        #{recipientPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="recipientAddress != null" >
+        #{recipientAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=BIGINT},
+      </if>
+      <if test="1 != 0" >
+        now(),
+      </if>
+      <if test="updater != null" >
+        #{updater,jdbcType=BIGINT},
+      </if>
+      <if test="updated != null" >
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.ane.arbitration.domain.Arbitration" >
+    update arbitration
+    <set >
+      <if test="applySiteId != null" >
+        apply_site_id = #{applySiteId,jdbcType=BIGINT},
+      </if>
+      <if test="ownerSiteId != null" >
+        owner_site_id = #{ownerSiteId,jdbcType=BIGINT},
+      </if>
+      <if test="applyReason != null" >
+        apply_reason = #{applyReason,jdbcType=VARCHAR},
+      </if>
+      <if test="applyType != null" >
+        apply_type = #{applyType,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="complaintPhone != null" >
+        complaint_phone = #{complaintPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="complainant != null" >
+        complainant = #{complainant,jdbcType=BIGINT},
+      </if>
+      <if test="1==1" >
+        updated = now(),      
+      </if>
+      <if test="status != null" >
+        `status` = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateArbInfo" parameterType="com.ane.arbitration.domain.Arbitration" >
+    update arbitration
+    <set >
+      <if test="handler != null" >
+        handler = #{handler,jdbcType=BIGINT},
+      </if>
+      <if test="updater != null" >
+        updater = #{updater,jdbcType=BIGINT},
+      </if>
+      <if test="1 != null" >
+        updated = now(),
+      </if>
+      <if test="status != null" >
+        `status` = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+
+</mapper>

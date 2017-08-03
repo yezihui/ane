@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ane.basic.dao.AuthOrganizationDao" >
+  <resultMap id="BaseResultMap" type="com.ane.basic.domain.AuthOrganization" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="short_name" property="shortName" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="region" property="region" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="full_address" property="fullAddress" jdbcType="VARCHAR" />
+    <result column="site_state" property="siteState" jdbcType="INTEGER" />
+    <result column="site_type" property="siteType" jdbcType="INTEGER" />
+    <result column="site_order" property="siteOrder" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="head_phone" property="headPhone" jdbcType="VARCHAR" />
+    <result column="head_name" property="headName" jdbcType="VARCHAR" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+    <result column="bank" property="bank" jdbcType="VARCHAR" />
+    <result column="xxx" property="xxx" jdbcType="VARCHAR" />
+    <result column="creater" property="creater" jdbcType="INTEGER" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="updater" property="updater" jdbcType="INTEGER" />
+    <result column="updated" property="updated" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="BaseResultMapEx" type="com.ane.basic.domain.AuthOrganization" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="short_name" property="shortName" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="region" property="region" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="full_address" property="fullAddress" jdbcType="VARCHAR" />
+    <result column="site_state" property="siteState" jdbcType="INTEGER" />
+    <result column="site_type" property="siteType" jdbcType="INTEGER" />
+    <result column="site_order" property="siteOrder" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="order_name" property="orderName" jdbcType="VARCHAR" />
+    <result column="head_phone" property="headPhone" jdbcType="VARCHAR" />
+    <result column="head_name" property="headName" jdbcType="VARCHAR" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+    <result column="bank" property="bank" jdbcType="VARCHAR" />
+    <result column="xxx" property="xxx" jdbcType="VARCHAR" />
+    <result column="creater" property="creater" jdbcType="INTEGER" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="updater" property="updater" jdbcType="INTEGER" />
+    <result column="updated" property="updated" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, short_name, country, province, city, region, address, full_address,site_state, site_type, 
+    site_order, order_id, head_phone, head_name, bank_name, bank, xxx, creater, created, 
+    updater, updated
+  </sql>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hs_auth_organization
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="findByDeptId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select a.* from hs_auth_organization a
+	left join hs_basic_dept b on b.dept_name = a.`name`
+	where b.dept_id = #{siteId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="findByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from hs_auth_organization
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getSiteId" resultType="java.lang.Long" parameterType="java.lang.Integer" >
+    select a.id from hs_auth_organization a
+	left join hs_basic_address_library b on b.FULL_ADDRESS = a.full_address
+	where b.ADDRESS_LIBRART_ID = #{id,jdbcType=BIGINT} order by site_type desc limit 0,1
+  </select>
+  
+  <select id="getCounts" resultType="java.lang.Integer" >
+    select 
+    count(1)
+    from hs_auth_organization
+    where 1=1
+    <if test="id != null" >
+       and id = #{id,jdbcType=BIGINT}
+    </if>
+    <if test="name != null" >
+       and name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="orderId != null" >
+       and order_id = #{orderId,jdbcType=BIGINT}
+    </if>
+  </select>
+  
+  <select id="getSiteByPage" resultMap="BaseResultMapEx"  >
+    select 
+    a.*,(select b.name from hs_auth_organization b where b.id=a.order_id) as order_name
+    from hs_auth_organization a
+    where 1=1
+    <if test="id != null" >
+       and id = #{id,jdbcType=BIGINT}
+    </if>
+    <if test="name != null" >
+       and name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="orderId != null" >
+       and order_id = #{orderId,jdbcType=BIGINT}
+    </if>
+    limit #{offset},#{pageSize}
+  </select>
+  
+  <select id="findByType" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from hs_auth_organization
+    <if test="siteType == 2" >
+        where site_type = 1
+    </if>
+    <if test="siteType == 3" >
+        where site_type = 1 or site_type = 2
+    </if>
+  </select>
+  
+  
+  <delete id="delete" parameterType="java.lang.Long" >
+    delete from hs_auth_organization
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ane.basic.domain.AuthOrganization" >
+    insert into hs_auth_organization (name, short_name, 
+      country, province, city, 
+      region, address,full_address, site_state, 
+      site_type, site_order, order_id, 
+      head_phone, head_name, bank_name, 
+      bank, xxx, creater, 
+      created, updater, updated
+      )
+    values (#{name,jdbcType=VARCHAR}, #{shortName,jdbcType=VARCHAR}, 
+      #{country,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{region,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},  #{fullAddress,jdbcType=VARCHAR}, #{siteState,jdbcType=INTEGER}, 
+      #{siteType,jdbcType=INTEGER}, #{siteOrder,jdbcType=INTEGER}, #{orderId,jdbcType=BIGINT}, 
+      #{headPhone,jdbcType=VARCHAR}, #{headName,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, 
+      #{bank,jdbcType=VARCHAR}, #{xxx,jdbcType=VARCHAR}, #{creater,jdbcType=INTEGER}, 
+      #{created,jdbcType=TIMESTAMP}, #{updater,jdbcType=INTEGER}, #{updated,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <select id="getMaxOrder" resultType="java.lang.Integer">
+  	select max(site_Order) from hs_auth_organization
+  </select>
+  <update id="update" parameterType="com.ane.basic.domain.AuthOrganization" >
+    update hs_auth_organization
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="shortName != null" >
+        short_name = #{shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null" >
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="fullAddress != null" >
+        full_address = #{fullAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="siteState != null" >
+        site_state = #{siteState,jdbcType=INTEGER},
+      </if>
+      <if test="siteType != null" >
+        site_type = #{siteType,jdbcType=INTEGER},
+      </if>
+      <if test="siteOrder != null" >
+        site_order = #{siteOrder,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="headPhone != null" >
+        head_phone = #{headPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="headName != null" >
+        head_name = #{headName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null" >
+        bank = #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="xxx != null" >
+        xxx = #{xxx,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null" >
+        creater = #{creater,jdbcType=INTEGER},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null" >
+        updater = #{updater,jdbcType=INTEGER},
+      </if>
+      <if test="updated != null" >
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+ 
+</mapper>

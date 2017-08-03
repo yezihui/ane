@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ane.main.dao.EmployeeDao" >
+  <resultMap id="BaseResultMap" type="com.ane.main.domain.Employee" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="pinyin" property="pinyin" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="site_id" property="siteId" jdbcType="VARCHAR" />
+    <result column="site_name" property="siteName" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="entry_time" property="entryTime" jdbcType="TIMESTAMP" />
+    <result column="dept_id" property="deptId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="creater" property="creater" jdbcType="BIGINT" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="updater" property="updater" jdbcType="BIGINT" />
+    <result column="updated" property="updated" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, pinyin, sex, site_id, phone, position, phone,
+    remark, entry_time, dept_id, 
+    user_id,creater, created, updater, updated
+  </sql>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from hs_auth_employee
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="findByName" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from hs_auth_employee
+    where `name` = #{code,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getEmpByDept" resultMap="BaseResultMap"  >
+    select a.*,d.dept_name as siteName
+ 	from hs_auth_employee a 
+	left join hs_basic_dept d on a.site_id = d.dept_id
+ 	where 1=1
+    <if test="deptId != null" >
+       and site_id = #{deptId,jdbcType=BIGINT}
+    </if>
+  </select>
+ <delete id="delete" parameterType="java.lang.Long" >
+    delete from hs_auth_employee
+    where 
+    user_id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <select id="getCounts" resultType="java.lang.Integer" >
+    select count(1)
+ 	from hs_auth_employee a 
+	left join hs_basic_dept d on a.site_id = d.dept_id
+    where 1=1
+    <if test="id != null" >
+       and id = #{id,jdbcType=BIGINT}
+    </if>
+    <if test="name != null" >
+       and name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="siteId != null" >
+       and site_id = #{siteId,jdbcType=BIGINT}
+    </if>
+  </select>
+  
+  <select id="getAllEmployees" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from hs_auth_employee
+  </select>
+  
+  <select id="getEmployeeByPage" resultMap="BaseResultMap"  >
+    select a.*,d.dept_name as siteName
+ 	from hs_auth_employee a 
+	left join hs_basic_dept d on a.site_id = d.dept_id
+ 	where 1=1
+    <if test="id != null" >
+       and id = #{id,jdbcType=BIGINT}
+    </if>
+    <if test="name != null" >
+       and name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="siteId != null" >
+       and site_id = #{siteId,jdbcType=BIGINT}
+    </if>
+    limit #{offset},#{pageSize}
+  </select>
+  
+  <insert id="insert" parameterType="com.ane.main.domain.Employee" >
+    insert into hs_auth_employee
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="pinyin != null" >
+        pinyin,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="siteId != null" >
+        site_id,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="entryTime != null" >
+        entry_time,
+      </if>
+      <if test="deptId != null" >
+        dept_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+      <if test="creater != null" >
+        creater,
+      </if>
+      <if test="updater != null" >
+        updater,
+      </if>
+      <if test="updated != null" >
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pinyin != null" >
+        #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="siteId != null" >
+        #{siteId,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTime != null" >
+        #{entryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deptId != null" >
+        #{deptId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="created != null" >
+        now(),
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=BIGINT},
+      </if>
+      <if test="updater != null" >
+        #{updater,jdbcType=BIGINT},
+      </if>
+      <if test="updated != null" >
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+   <update id="update" parameterType="com.ane.main.domain.Employee" >
+    update hs_auth_employee
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pinyin != null" >
+        pinyin = #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="siteId != null" >
+        site_id = #{siteId,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTime != null" >
+        entry_time = #{entryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deptId != null" >
+        dept_id = #{deptId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null" >
+        creater = #{creater,jdbcType=BIGINT},
+      </if>
+      <if test="updater != null" >
+        updater = #{updater,jdbcType=BIGINT},
+      </if>
+      <if test="updated != null" >
+        updated = now(),
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

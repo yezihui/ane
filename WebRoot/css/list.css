@@ -1,0 +1,137 @@
+@charset "utf-8";
+/* CSS Document */
+
+/**查询条件**/
+.condition{
+	background:#FFF;
+	padding: 10px 0px;
+}
+.condition .condition-title{
+	background: #DDE1E6;
+	height: 30px;
+	line-height: 30px;
+	overflow:hidden;
+	cursor: pointer;
+}
+.condition .condition-title .t-img{
+	width: 15px;
+	height: 15px;
+	display: block;
+	float:left;
+	margin:6.5px 5px 0px 15px;
+}
+.condition .condition-div{
+	display:block;
+	overflow:hidden;
+}
+/**左边运单号样式**/
+.condition .condition-left{
+	float:left;
+	width: 230px;
+	padding:10px;
+	margin-top:6px;
+	text-align: center;
+}
+.condition .condition-left textarea{
+	width:190px;
+	height:75px;
+}
+/**右边其他条件样式**/
+.condition .condition-right{
+	float:left;
+	width: 1050px;
+	overflow: hidden;
+}
+.condition .condition-right .input-div{
+	width: 257px;
+	margin:8px 0px 5px 0px;
+}
+.condition .condition-right .day{	
+	width:514px;
+}
+.condition .condition-right .day label{
+	display: block;
+	float:left;
+	margin:8px 2px 0px 53px; 
+}
+.condition .condition-right .day div{
+	border: 1px solid #C9C9C9;
+	border-radius:5px;
+	height: 30px;
+	float:left;
+	line-height: 30px;
+	padding-right:41px;
+}
+.condition .condition-right .day input{
+	margin-left:39px;
+}
+.condition .condition-right .time{	
+	width: 520px;
+}
+.condition .condition-right .time span{
+	height:30px;
+	line-height: 30px;
+	margin-right:7px;
+}
+.condition .condition-right .time input{
+	width:181px!important;
+	margin-right:6px;
+}
+.condition .condition-right input[type='text']{
+	width: 150px;
+	background:#FFF;
+}
+.condition .condition-right select{
+	width: 172px;
+	background:#FFF;
+}
+/**列表数据样式**/
+.data .data-width{
+	overflow-x:scroll; 
+}
+.data th,
+.data td{
+	line-height:42px;
+	font-weight: normal;
+	text-align:center;
+	min-width:50px;
+	border: 1px solid #C9C9C9;
+}
+.data td{
+	cursor: pointer;
+}
+.data .data-title{
+	background:#FFF;
+	width:100%;
+}
+.data .data-count{
+	border-top:none;
+	overflow:hidden;
+	overflow-y:scroll;
+	background:#FFF;
+}
+.data .data-count table{
+	width:100%;
+}
+.data .data-count table tr:nth-child(2n){
+	background-color:#EEE;
+}
+.data .data-count table tr:nth-child(1) td{
+	border-top:none; 
+}
+/**分页**/
+.page{
+	text-align: right;
+	line-height:40px;
+}
+.page a{
+	margin: 0px 10px;
+}
+.page input{
+	width:auto;
+	padding:0px 2px;
+	border: none;
+	text-align: center;
+	width:40px;
+	background:transparent;
+}

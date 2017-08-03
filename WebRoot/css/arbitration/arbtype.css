@@ -1,0 +1,66 @@
+body{
+				height:100%;
+			}
+			.type-div legend{
+				margin-left:20px;
+			}
+			.type-div{
+			
+			}
+			.type-div .left{
+				float:left;
+				width: 300px;
+				border:1px solid #C9C9C9;
+				margin:10px;
+				min-height:610px;
+				background:#FFF;
+				overflow-y:auto;
+				overflow:hidden;
+			}
+			.type-div .right{
+				float: right;
+				width:calc(100% - (345px));
+				width:-moz-calc(100% - (345px));
+				width:-m-calc(100% - (345px));
+				width:-o-calc(100% - (345px));
+				width:-webkit-calc(100% - (350px));
+				border:1px solid #C9C9C9;
+				margin:10px;
+				height:610px;
+				background:#FFF;
+			}
+			.type-div .other-check{
+				width:100%;
+				line-height:50px;
+				height:50px;
+				float: left;
+				overflow:hidden;
+			}
+			.type-div .other-check div{
+				float:left;
+				margin-left:80px;
+			}
+			.type-div .input-div{
+				width:400px;
+				margin:15px 0px;
+			}
+			.type-div .textarea-div{
+				width:800px;
+				margin:15px 0px;
+				text-align:right;
+				float: left;
+			}
+			.type-div .textarea-div textarea{
+				width:700px;
+				height: 80px;
+			}
+			.type-div .input-div input[type='text']{
+				width:300px;
+			}
+			.column {
+			    background-color: #dde1e6;
+			    cursor: pointer;
+			    height: 26px;
+			    line-height: 25px;
+			    overflow: hidden;
+			}

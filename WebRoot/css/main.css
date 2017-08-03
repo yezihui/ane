@@ -1,0 +1,182 @@
+@import url("common.css");
+
+@charset "utf-8";
+/* CSS Document */
+html,body,.top,.center,.left,.right,.bottom{
+	overflow: hidden;
+}
+
+/**头部样式**/
+.top{
+	height: 50px;
+	line-height: 50px;
+	background:#000;
+	color:#FFF;
+	text-align: center;
+}
+.top>img{
+	float: left;
+	display:block;
+	padding: 15px 30px 15px 30px;
+}
+.top>span{
+	font-size: 20px;
+}
+.top>div{
+	float:right;
+	line-height:50px;
+	padding-right: 30px;
+}
+
+/**左边菜单样式**/
+.left{
+	width: 239px;
+	font-size:14px;
+	float:left;
+	height:calc(100vh - (80px));
+	height:-moz-calc(100vh - (80px));
+	height:-m-calc(100vh - (80px));
+	height:-o-calc(100vh - (80px));
+	height:-webkit-calc(100vh - (80px));
+	border-right:1px solid #F6F6F6;
+	overflow-y:scroll; 
+	background:#FFF;
+}
+.menu-ul .a-img{
+	display: block;
+	width:16px;
+	height: 16px;
+	margin:9px 5px 0px 2px;
+	float:left;
+}
+.menu-ul>li>div{
+	padding-left:10px;
+	margin-top:5px;
+}
+.menu-ul ul{
+	display:none;
+	background:#F6F6F6;
+	overflow:hidden;
+}
+.menu-ul div{
+	height: 35px;
+	line-height: 35px;
+	overflow:hidden;
+	cursor: pointer;
+}
+.menu-ul ul li{
+	line-height: 30px;
+	margin: 2px 0px;
+	padding-left: 27px;
+	cursor: pointer;
+	white-space:nowrap;
+}
+.menu-ul .a-title:hover,
+.menu-ul div:hover{
+	background:#F18700;
+	color:#FFF;
+}
+.sel-menu{
+	background:#515D6A;
+	color:#FFF;
+}
+/**右边内容样式**/
+.right{
+	width:calc(100vw - (240px));
+	width:-moz-calc(100vw - (240px));
+	width:-m-calc(100vw - (240px));
+	width:-o-calc(100vw - (240px));
+	width:-webkit-calc(100vw - (240px));
+	height:calc(100vh - (80px));
+	height:-moz-calc(100vh - (80px));
+	height:-m-calc(100vh - (80px));
+	height:-o-calc(100vh - (80px));
+	height:-webkit-calc(100vh - (80px));
+	float:right;
+}
+/**右边选项卡样式**/
+.right-tab{
+	height: 30px;
+	width: 100%;
+	overflow: hidden;
+	border-bottom: 1px solid #515D6A;
+}
+.right-tab>img{
+	width: 13px;
+	display:block;
+	float: left;
+	padding:10px 10px 10px 10px;
+	cursor: pointer;
+	border-left:1px solid #E6EAED;
+	border-right:1px solid #E6EAED;
+	background:#FFF;
+}
+.right-tab>img:hover{
+	background-color: #f2f2f2;
+	border-color: #ccc;
+	opacity:0.3;
+}
+.right-tab>div{
+	overflow: hidden;
+	float: left;
+	background-color: #fafafa;
+	width:calc(100vw - (308px));
+	width:-moz-calc(100vw - (308px));
+	width:-m-calc(100vw - (308px));
+	width:-o-calc(100vw - (308px));
+	width:-webkit-calc(100vw - (308px));
+}
+.tab-title li:hover{
+	background-color: #f2f2f2;
+}
+.tab-title{
+	width: 10000000px;
+}
+.tab-title li{
+	float: left;
+	line-height: 30px;
+	padding:0px 10px 0px 10px;
+	border-right:1px solid #E6EAED;
+	cursor: pointer;
+	overflow: hidden;
+	font-size: 12px;
+	color: #777;
+}
+.tab-title li img{
+	width: 15px;
+	display: block;
+	float: right;
+	margin:7px 0px  0px  3px;
+	opacity:0.5;
+}
+.tab-title li img:hover{
+	opacity:1;
+}
+
+.sel-tabtitle{
+	border-color: #3749AD!important;
+	background-color: #515D6A!important;
+	color: #fff!important;
+}
+
+/**右边内容页样式**/
+.right-count iframe{
+	width: 100%;
+	height:calc(100vh - (112px));
+	height:-moz-calc(100vh - (112px));
+	height:-m-calc(100vh - (112px));
+	height:-o-calc(100vh - (112px));
+	height:-webkit-calc(100vh - (112px));
+	border: none;
+	overflow:hidden;
+}
+
+/**底部版权样式**/
+.bottom{
+	width: 100%;
+	height: 30px;
+	text-align:center;
+	line-height: 30px;
+	background: #2B323A;
+	color:#FFF;
+}

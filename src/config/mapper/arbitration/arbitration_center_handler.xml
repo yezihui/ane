@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ane.arbitration.dao.ArbitrationCenterHandlerDao" >
+  <resultMap id="BaseResultMap" type="com.ane.arbitration.domain.ArbitrationCenterHandler" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="arbitration_id" property="arbitrationId" jdbcType="BIGINT" />
+    <result column="organization_type" property="organizationType" jdbcType="BIGINT" />
+    <result column="join_organization" property="joinOrganization" jdbcType="VARCHAR" />
+    <result column="duty_type" property="dutyType" jdbcType="BIGINT" />
+    <result column="fee_project" property="feeProject" jdbcType="BIGINT" />
+    <result column="fee_money" property="feeMoney" jdbcType="DOUBLE" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, arbitration_id, organization_type, join_organization, duty_type, fee_project, 
+    fee_money, created
+  </sql>
+  <select id="getInfo" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from arbitration_center_handler
+    where arbitration_id = #{id,jdbcType=BIGINT}
+    ORDER BY created
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from arbitration_center_handler
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="add" parameterType="com.ane.arbitration.domain.ArbitrationCenterHandler" >
+    insert into arbitration_center_handler
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="arbitrationId != null" >
+        arbitration_id,
+      </if>
+      <if test="organizationType != null" >
+        organization_type,
+      </if>
+      <if test="joinOrganization != null" >
+        join_organization,
+      </if>
+      <if test="dutyType != null" >
+        duty_type,
+      </if>
+      <if test="feeProject != null" >
+        fee_project,
+      </if>
+      <if test="feeMoney != null" >
+        fee_money,
+      </if>
+      <if test="1 != null" >
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="arbitrationId != null" >
+        #{arbitrationId,jdbcType=BIGINT},
+      </if>
+      <if test="organizationType != null" >
+        #{organizationType,jdbcType=BIGINT},
+      </if>
+      <if test="joinOrganization != null" >
+        #{joinOrganization,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyType != null" >
+        #{dutyType,jdbcType=BIGINT},
+      </if>
+      <if test="feeProject != null" >
+        #{feeProject,jdbcType=BIGINT},
+      </if>
+      <if test="feeMoney != null" >
+        #{feeMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="1 != null" >
+        now(),
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ane.arbitration.domain.ArbitrationCenterHandler" >
+    update arbitration_center_handler
+    <set >
+      <if test="arbitrationId != null" >
+        arbitration_id = #{arbitrationId,jdbcType=BIGINT},
+      </if>
+      <if test="organizationType != null" >
+        organization_type = #{organizationType,jdbcType=BIGINT},
+      </if>
+      <if test="joinOrganization != null" >
+        join_organization = #{joinOrganization,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyType != null" >
+        duty_type = #{dutyType,jdbcType=BIGINT},
+      </if>
+      <if test="feeProject != null" >
+        fee_project = #{feeProject,jdbcType=BIGINT},
+      </if>
+      <if test="feeMoney != null" >
+        fee_money = #{feeMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="created != null" >
+        created = now(),
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ane.arbitration.domain.ArbitrationCenterHandler" >
+    update arbitration_center_handler
+    set arbitration_id = #{arbitrationId,jdbcType=BIGINT},
+      organization_type = #{organizationType,jdbcType=BIGINT},
+      join_organization = #{joinOrganization,jdbcType=VARCHAR},
+      duty_type = #{dutyType,jdbcType=BIGINT},
+      fee_project = #{feeProject,jdbcType=BIGINT},
+      fee_money = #{feeMoney,jdbcType=DOUBLE},
+      created = now()
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

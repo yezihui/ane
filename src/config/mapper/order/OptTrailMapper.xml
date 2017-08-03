@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ane.order.dao.OptTrailDao" >
+  <resultMap id="BaseResultMap" type="com.ane.order.domain.OptTrail" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ewb_no" property="ewbNo" jdbcType="VARCHAR" />
+    <result column="top_site" property="topSite" jdbcType="VARCHAR" />
+    <result column="next_site" property="nextSite" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="DATE" />
+    <result column="create_name" property="createName" jdbcType="INTEGER" />
+    <result column="c_name" property="cName" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,ewb_no, top_site, next_site, create_time, create_name
+  </sql>
+  <select id="getTrailByEwbNo" resultMap="BaseResultMap"  >
+    select a.*,(select b.name from hs_auth_employee b where b.id = a.create_name) as c_name
+ 	from hs_opt_trail a 
+ 	where a.ewb_no = #{ewbNo,jdbcType=VARCHAR} order by a.create_time desc 
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from hs_opt_trail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from hs_opt_trail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ane.order.domain.OptTrail" >
+    insert into hs_opt_trail (id,ewb_no, top_site, next_site, 
+      create_time, create_name,state)
+    values (#{id,jdbcType=INTEGER},#{ewbNo,jdbcType=VARCHAR}, #{topSite,jdbcType=VARCHAR}, #{nextSite,jdbcType=VARCHAR}, 
+      now(), #{createName,jdbcType=INTEGER},#{state,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ane.order.domain.OptTrail" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hs_opt_trail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
+      <if test="topSite != null" >
+        top_site,
+      </if>
+      <if test="nextSite != null" >
+        next_site,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createName != null" >
+        create_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=INTEGER},
+      <if test="topSite != null" >
+        #{topSite,jdbcType=BIGINT},
+      </if>
+      <if test="nextSite != null" >
+        #{nextSite,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="createName != null" >
+        #{createName,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ane.order.domain.OptTrail" >
+    update hs_opt_trail
+    <set >
+      <if test="topSite != null" >
+        top_site = #{topSite,jdbcType=BIGINT},
+      </if>
+      <if test="nextSite != null" >
+        next_site = #{nextSite,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="createName != null" >
+        create_name = #{createName,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ane.order.domain.OptTrail" >
+    update hs_opt_trail
+    set top_site = #{topSite,jdbcType=BIGINT},
+      next_site = #{nextSite,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=DATE},
+      create_name = #{createName,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

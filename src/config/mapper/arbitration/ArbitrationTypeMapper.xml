@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ane.arbitration.dao.ArbitrationTypeDao" >
+ <resultMap id="BaseResultMap"
+		type="com.ane.arbitration.domain.ArbitrationType">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="pinyin" property="pinyin" jdbcType="VARCHAR" />
+		<result column="is_pay_for" property="isPayFor" jdbcType="BIT" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="parent_id" property="parentId" jdbcType="BIGINT" />
+		<result column="order" property="order" jdbcType="INTEGER" />
+		<result column="creater" property="creater" jdbcType="BIGINT" />
+		<result column="created" property="created" jdbcType="TIMESTAMP" />
+		<result column="updater" property="updater" jdbcType="BIGINT" />
+		<result column="updated" property="updated" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="ResultMap"
+		type="com.ane.arbitration.domain.ArbitrationType">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="name" property="title" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, code, name, pinyin,  is_pay_for,
+		description,
+		parent_id, `order`, creater, created, updater, updated
+	</sql>
+  	<!-- 通过id查找 -->
+	<select id="findById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		SELECT
+		a.id,
+		a.code,
+		a.name ,
+		a.pinyin,
+		a.parent_id,
+		a.order,
+		a.description,
+		a.is_pay_for
+		FROM arbitration_type as a
+		WHERE a.id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<!-- 通过name查找 -->
+	<select id="findByName" parameterType="java.lang.String"
+		resultType="java.lang.Long">
+		SELECT
+		a.id
+		FROM arbitration_type as a
+		where a.name = #{name,jdbcType=VARCHAR}
+			
+	</select>
+
+	<select id="getMaxOrder" resultType="java.lang.Integer">
+		select max(`order`)+1 `order` from arbitration_type
+	</select>
+
+	<select id="findByCode" parameterType="java.lang.String"
+		resultType="java.lang.Long">
+		SELECT
+		a.id
+		FROM arbitration_type as a
+		WHERE a.code = #{code}
+	</select>
+	<select id="getDesc" 
+		resultType="java.lang.Integer">
+		SELECT
+		max(a.order)
+		FROM arbitration_type as a
+	</select>
+	<select id="findByOrder" parameterType="java.lang.String"
+		resultType="java.lang.Long">
+		SELECT
+		a.id
+		FROM arbitration_type as a
+		WHERE a.order = #{order}
+	</select>
+
+	<!-- 查询所有仲裁类型 -->
+
+	<select id="findAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from arbitration_type
+		where name!='全部'
+	</select>
+	
+	<select id="findArbType" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from arbitration_type
+		where name!='全部' and is_pay_for !=0
+	</select>
+
+	<!-- 查询所有字段 -->
+	<select id="getTypes" resultMap="ResultMap">
+		SELECT
+		a.id id,
+		a.name name,
+		a.name title
+		FROM arbitration_type a
+		where name!='全部'
+	</select>
+	
+	<!-- 查询仲裁类型记录数 -->
+  <select id="getArbTypeNum" resultType="java.lang.Integer">
+  	select count(distinct name) as num from arbitration_type
+  	where name!='全部'
+  </select>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from arbitration_type
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add"
+		parameterType="com.ane.arbitration.domain.ArbitrationType">
+		insert into arbitration_type
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			id,
+			<if test="code != null">
+				code,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="pinyin != null">
+				pinyin,
+			</if>
+			<if test="isPayFor != null">
+				is_pay_for,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="parentId != null">
+				parent_id,
+			</if>
+			<if test="order != null">
+				`order`,
+			</if>
+			<if test="creater != null">
+				creater,
+			</if>
+			<if test="created != null">
+				created,
+			</if>
+			<if test="updater != null">
+				updater,
+			</if>
+			<if test="updated != null">
+				updated,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{id,jdbcType=BIGINT},
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="pinyin != null">
+				#{pinyin,jdbcType=VARCHAR},
+			</if>
+			<if test="isPayFor != null">
+				#{isPayFor,jdbcType=BIT},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=BIGINT},
+			</if>
+			<if test="order != null">
+				#{order,jdbcType=INTEGER},
+			</if>
+			<if test="creater != null">
+				#{creater,jdbcType=BIGINT},
+			</if>
+			<if test="created != null">
+				now(),
+			</if>
+			<if test="updater != null">
+				#{updater,jdbcType=BIGINT},
+			</if>
+			<if test="updated != null">
+				#{updated,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 更改 -->
+	<update id="update"
+		parameterType="com.ane.arbitration.domain.ArbitrationType">
+		update arbitration_type
+		<set>
+			<if test="code != null">
+				code = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="pinyin != null">
+				pinyin = #{pinyin,jdbcType=VARCHAR},
+			</if>
+			<if test="isPayFor != null">
+				is_pay_for = #{isPayFor,jdbcType=BIT},
+			</if>
+			<if test="description != null">
+				description = #{description,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				parent_id = #{parentId,jdbcType=BIGINT},
+			</if>
+			<if test="order != null">
+				`order` = #{order,jdbcType=INTEGER},
+			</if>
+			<if test="creater != null">
+				creater = #{creater,jdbcType=BIGINT},
+			</if>
+			<if test="created != null">
+				created = #{created,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updater != null">
+				updater = #{updater,jdbcType=BIGINT},
+			</if>
+			<if test="updated != null">
+				updated = now()
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

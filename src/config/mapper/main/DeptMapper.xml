@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ane.main.dao.DeptDao" >
+  <resultMap id="BaseResultMap" type="com.ane.main.domain.Dept" >
+    <id column="dept_id" property="deptId" jdbcType="INTEGER" />
+    <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+    <result column="dept_spell" property="deptSpell" jdbcType="VARCHAR" />
+    <result column="dept_order" property="deptOrder" jdbcType="INTEGER" />
+    <result column="parent_dept_id" property="parentDeptId" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="DATE" />
+    <result column="update_by" property="updateBy" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    dept_id, dept_name, dept_spell, dept_order, parent_dept_id, description, create_by, 
+    create_time, update_by, update_time
+  </sql>
+  <select id="getAllDepts" resultMap="BaseResultMap"  >
+    select *
+ 	from hs_basic_dept a 
+  </select>
+  
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select *
+    from hs_basic_dept a 
+    	where a.dept_id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getMaxOrder" resultType="java.lang.Integer" >
+    select 
+    max(dept_ORDER)
+    from hs_basic_dept
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from hs_basic_dept
+    where 
+    dept_id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.ane.main.domain.Dept" >
+    insert into hs_basic_dept
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="deptName != null" >
+        dept_name,
+      </if>
+      <if test="deptSpell != null" >
+        dept_spell,
+      </if>
+      <if test="deptOrder != null" >
+        dept_order,
+      </if>
+      <if test="parentDeptId != null" >
+        parent_dept_id,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="deptName != null" >
+        #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="deptSpell != null" >
+        #{deptSpell,jdbcType=VARCHAR},
+      </if>
+      <if test="deptOrder != null" >
+        #{deptOrder,jdbcType=INTEGER},
+      </if>
+      <if test="parentDeptId != null" >
+        #{parentDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        now(),
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.ane.main.domain.Dept" >
+    update hs_basic_dept
+    <set >
+      <if test="deptName != null" >
+        dept_name = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="deptSpell != null" >
+        dept_spell = #{deptSpell,jdbcType=VARCHAR},
+      </if>
+      <if test="deptOrder != null" >
+        dept_order = #{deptOrder,jdbcType=INTEGER},
+      </if>
+      <if test="parentDeptId != null" >
+        parent_dept_id = #{parentDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        update_time = now(),
+      </if>
+    </set>
+    where dept_id = #{deptId,jdbcType=INTEGER}
+  </update>
+</mapper>

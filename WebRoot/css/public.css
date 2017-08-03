@@ -1,0 +1,134 @@
+@charset "utf-8";
+/* CSS Document */
+/*************公共样式***************/
+html,body{
+	min-width:1320px;
+	min-height: 600px;
+}
+.input-div{
+	height: 32px; 
+	text-align: right;
+	float:left;
+	overflow: hidden;
+}
+.input-div input[type='text'],
+.input-div select{
+	height: 30px;
+	line-height: 30px;
+	padding: 0px 10px;
+	border: 1px solid #C9C9C9;
+	border-radius:5px;
+}
+textarea{
+	border: 1px solid #C9C9C9;
+	border-radius:5px;
+	resize:none;
+	margin-top:10px;
+	padding: 5px 10px;
+}
+/**头部按钮样式**/
+.btn-div{
+	width: 100%;
+	height: 40px;
+	background-color:#fff;
+}
+.btn-div input[type='button']{
+	height: 28px;
+	min-width: 90px;
+	color: #FFFEFE;
+	padding:0px 8px;
+	border-radius: 4px;
+	margin:6px 0px 7px 10px;
+	cursor: pointer;
+	border: 1px solid #F18700;
+	background-color: #F18700;
+}
+.btn-div .gbtn{
+	border: 1px solid #ccc!important;
+	background-color: #ccc!important;
+	cursor: auto!important;
+}
+/**选项卡样式**/
+.type-tab{
+	margin:10px 10px 0px 10px;
+	overflow: hidden;
+}
+.type-tab li{
+	float:left;
+	height: 30px;
+	line-height: 30px;
+	padding:0px 20px;
+	margin-right:5px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	cursor: pointer;
+	background:#E7E7E7;
+}
+.windiv{
+	display: none;
+}
+.sel-tabtype{
+	background: #FFF!important;
+}
+/**显示内容**/
+.type-content{
+	margin: 0px 10px;
+	height:calc(100vh - (80px));
+	height:-moz-calc(100vh - (80px));
+	height:-m-calc(100vh - (80px));
+	height:-o-calc(100vh - (80px));
+	height:-webkit-calc(100vh - (80px));
+}
+
+
+/* 模糊查询 */
+.vagueWin {
+	color: #999;
+	font-size: 12px;
+	border: 1px solid #5268E0;
+	border-radius: 5px;
+	margin: auto;
+	background-color: #fff;
+	position: absolute;
+	z-index: 3;
+}
+.vagueWin table tr:hover{
+	color: #fff !important;
+	cursor: pointer;
+	background: #7e90f2 !important;
+}
+.vagueWin .selectedVagueTr {
+	background: #7e90f2 !important;
+	color: #fff !important;
+}
+
+.vagueWin table th {
+	line-height: 37px;
+	color: #fff;
+	font-weight: normal;
+	background-color: #5268E0;
+	padding: 0px 10px;
+}
+
+.vagueWin td {
+	line-height: 37px;
+	padding: 0px 20px;
+	overflow:hidden;
+}
+.vagueWin .sq-lpage{
+	float:left;
+	margin:0px 15px;
+	line-height: 38px;
+}
+.vagueWin .sq-npage{
+	float:right;
+	margin:0px 15px;
+	line-height: 38px;
+}
+.vagueWin .dataShow {
+	display: flex;
+}
+
+.vagueWin .dataNoShow {
+	display: none;
+}
